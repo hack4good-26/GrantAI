@@ -1,8 +1,11 @@
+import SearchForm from "@/components/search/SearchForm";
+
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-      <p className="text-muted-foreground">Dashboard content will be implemented here.</p>
+    <div className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24 bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900">
+      <div className="w-full max-w-5xl">
+        <SearchForm />
+      </div>
     </div>
   );
 }

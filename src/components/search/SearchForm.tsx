@@ -1,12 +1,89 @@
-/**
- * SearchForm Component
- * Main form component for service idea search
- * Integrates QueryInput and OptionalFields
- */
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Search, Loader2 } from "lucide-react";
+import QueryInput from "./QueryInput";
+import OptionalFields from "./OptionalFields";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+
 export default function SearchForm() {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState({
+    budget: [10000, 100000],
+    duration: [12],
+    kpis: 3
+  });
+
+  const handleFilterChange = (key: string, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setIsLoading(true);
+    
+    // Simulate API call and vector search
+    setTimeout(() => {
+      // Mock creating a service idea ID (e.g., 101)
+      const mockId = 101;
+      router.push(`/matches?id=${mockId}`);
+    }, 2000);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 animate-in fade-in">
+        <LoadingSpinner text="Analyzing your service idea and finding suitable grants..." />
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-2xl mx-auto">
-      <p className="text-muted-foreground">SearchForm component will be implemented here.</p>
+    <div className="w-full max-w-3xl mx-auto space-y-6">
+      <div className="text-center space-y-2 mb-8">
+        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
+          What service grants are you looking for?
+        </h1>
+        <p className="text-muted-foreground text-lg">
+          Describe your project idea and let AI find the perfect funding match.
+        </p>
+      </div>
+
+      <Card className="border-2 shadow-lg">
+        <CardContent className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <QueryInput value={query} onChange={setQuery} />
+            
+            <OptionalFields filters={filters} onChange={handleFilterChange} />
+            
+            <Button 
+              type="submit" 
+              size="lg" 
+              className="w-full text-lg h-12 bg-blue-600 hover:bg-blue-700 shadow-md transition-all hover:scale-[1.01]"
+              disabled={!query.trim()}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Finding Grants...
+                </>
+              ) : (
+                <>
+                  <Search className="mr-2 h-5 w-5" />
+                  Find Matching Grants
+                </>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

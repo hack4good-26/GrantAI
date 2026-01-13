@@ -1,11 +1,19 @@
-/**
- * MatchList Component
- * Sorted list of grant matches
- */
-export default function MatchList() {
+import { GrantMatch } from "@/lib/types";
+import MatchCard from "./MatchCard";
+
+interface MatchListProps {
+  matches: GrantMatch[];
+}
+
+export default function MatchList({ matches }: MatchListProps) {
+  // Sort matches by similarity score descending
+  const sortedMatches = [...matches].sort((a, b) => b.similarity_score - a.similarity_score);
+
   return (
-    <div>
-      <p className="text-muted-foreground">MatchList component will be implemented here.</p>
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {sortedMatches.map((match) => (
+        <MatchCard key={match.id} match={match} />
+      ))}
     </div>
   );
 }
