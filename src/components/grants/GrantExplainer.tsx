@@ -5,6 +5,7 @@ import { Grant } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as Dialog from "@radix-ui/react-dialog";
+import { explainerApi } from "@/lib/api";
 import { 
   Send, 
   Bot, 
@@ -36,23 +37,46 @@ export default function GrantExplainer({ grant, initialMessages }: GrantExplaine
     }
   }, [messages, isOpen]);
 
-  const handleSendMessage = (e?: React.FormEvent) => {
+  const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isTyping) return;
 
-    const userMessage = { role: "user", content: input };
+    const question = input.trim();
+    const userMessage = { role: "user", content: question };
+    
+    // Prepare history BEFORE adding current message (history contains previous messages only)
+    const historyForApi = messages.map(msg => ({
+      role: msg.role === 'assistant' ? 'assistant' : 'user',
+      content: msg.content,
+    }));
+
+    // Add user message to UI immediately
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      // Call the API with history (previous messages) and current question
+      const response = await explainerApi.explain(grant.id, question, historyForApi);
+
+      // Add AI response to messages
       setMessages(prev => [...prev, {
         role: "assistant",
-        content: "This is a mock response. The AI would analyze the grant details and your question to provide a specific answer regarding eligibility, KPIs, or application strategy."
+        content: response.answer || "I apologize, but I could not generate a response. Please try again."
       }]);
+    } catch (error: any) {
+      // Display error message in chat
+      const errorMessage = error.response?.data?.error || 
+                          error.message || 
+                          "Failed to get AI response. Please try again.";
+      
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: `Sorry, I encountered an error: ${errorMessage}`
+      }]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   return (
