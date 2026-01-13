@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import type { Grant, GrantIntentProfile, ServiceIdea, GrantMatch } from './types';
+import type { Grant, ServiceIdea, GrantMatch } from './types';
 
 // Get API URL from environment variable
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -54,19 +54,6 @@ export const grantsApi = {
     const response = await apiClient.get<Grant>(`/api/grants/${id}`);
     return response.data;
   },
-
-  analyzeGrant: async (id: number): Promise<void> => {
-    await apiClient.post(`/api/grants/${id}/analyze`);
-  },
-
-  getIntentProfile: async (id: number): Promise<GrantIntentProfile> => {
-    const response = await apiClient.get<GrantIntentProfile>(`/api/grants/${id}/intent`);
-    return response.data;
-  },
-
-  analyzeAll: async (): Promise<void> => {
-    await apiClient.post('/api/grants/analyze-all');
-  },
 };
 
 export const serviceIdeasApi = {
@@ -84,35 +71,11 @@ export const serviceIdeasApi = {
     const response = await apiClient.get<GrantMatch[]>(`/api/service-ideas/${id}/matches`);
     return response.data;
   },
-
-  analyzeMatch: async (ideaId: number, grantId: number): Promise<GrantMatch> => {
-    const response = await apiClient.post<GrantMatch>(
-      `/api/service-ideas/${ideaId}/analyze-match/${grantId}`
-    );
-    return response.data;
-  },
-};
-
-export const dashboardApi = {
-  getStats: async () => {
-    const response = await apiClient.get('/api/dashboard/stats');
-    return response.data;
-  },
-
-  getPriorities: async () => {
-    const response = await apiClient.get('/api/dashboard/priorities');
-    return response.data;
-  },
 };
 
 export const explainerApi = {
   explain: async (grantId: number, question: string) => {
     const response = await apiClient.post(`/api/grants/${grantId}/explain`, { question });
-    return response.data;
-  },
-
-  compare: async (grantIds: number[], criteria?: string) => {
-    const response = await apiClient.post('/api/grants/compare', { grant_ids: grantIds, criteria });
     return response.data;
   },
 };
