@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { 
   LayoutDashboard, 
@@ -45,7 +44,7 @@ export default function Sidebar({ className }: SidebarProps) {
   ];
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border overflow-hidden">
       <div className={cn("flex items-center h-16 px-4 border-b border-sidebar-border", isCollapsed ? "justify-center" : "justify-between")}>
         {!isCollapsed && (
           <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
@@ -62,7 +61,7 @@ export default function Sidebar({ className }: SidebarProps) {
         </Button>
       </div>
       
-      <ScrollArea className="flex-1 py-4">
+      <div className="flex-1 py-4 overflow-hidden">
         <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
           {routes.map((route) => (
             <Link
@@ -80,7 +79,7 @@ export default function Sidebar({ className }: SidebarProps) {
             </Link>
           ))}
         </nav>
-      </ScrollArea>
+      </div>
       
       <div className="p-4 border-t border-sidebar-border">
          {!isCollapsed ? (
