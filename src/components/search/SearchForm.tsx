@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2 } from "lucide-react";
 import QueryInput from "./QueryInput";
 import OptionalFields from "./OptionalFields";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
@@ -13,6 +10,7 @@ export default function SearchForm() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState({
     budget: [10000, 100000],
     duration: [12],
@@ -46,7 +44,7 @@ export default function SearchForm() {
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-6">
+    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-6">
       <div className="text-center space-y-2 mb-8">
         <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
           What service grants are you looking for?
@@ -55,35 +53,14 @@ export default function SearchForm() {
           Describe your project idea and let AI find the perfect funding match.
         </p>
       </div>
-
-      <Card className="border-2 shadow-lg">
-        <CardContent className="p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <QueryInput value={query} onChange={setQuery} />
-            
-            <OptionalFields filters={filters} onChange={handleFilterChange} />
-            
-            <Button 
-              type="submit" 
-              size="lg" 
-              className="w-full text-lg h-12 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md transition-all hover:scale-[1.01]"
-              disabled={!query.trim()}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Finding Grants...
-                </>
-              ) : (
-                <>
-                  <Search className="mr-2 h-5 w-5" />
-                  Find Matching Grants
-                </>
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+      <QueryInput
+        value={query}
+        onChange={setQuery}
+        canSubmit={!!query.trim()}
+        onToggleFilters={() => setFiltersOpen((prev) => !prev)}
+        filtersOpen={filtersOpen}
+      />
+      {filtersOpen ? <OptionalFields filters={filters} onChange={handleFilterChange} /> : null}
+    </form>
   );
 }

@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { ChevronDown, ChevronUp, Settings2 } from "lucide-react";
+import { Settings2 } from "lucide-react";
 
 interface OptionalFieldsProps {
   filters: {
@@ -18,27 +15,13 @@ interface OptionalFieldsProps {
 }
 
 export default function OptionalFields({ filters, onChange }: OptionalFieldsProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <Collapsible
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      className="w-full border rounded-lg bg-card text-card-foreground shadow-sm"
-    >
-      <div className="flex items-center justify-between px-4 py-3">
-        <CollapsibleTrigger asChild>
-          <Button variant="ghost" size="sm" className="flex items-center gap-2 w-full justify-between">
-            <span className="flex items-center gap-2">
-              <Settings2 className="h-4 w-4" />
-              Advanced Filters (Optional)
-            </span>
-            {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </Button>
-        </CollapsibleTrigger>
+    <div className="w-full rounded-md border border-input bg-transparent shadow-sm">
+      <div className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-muted-foreground">
+        <Settings2 className="h-4 w-4" />
+        Advanced Filters (Optional)
       </div>
-      
-      <CollapsibleContent className="px-6 pb-6 pt-2 space-y-6 animate-in slide-in-from-top-2">
+      <div className="px-6 pb-6 pt-2 space-y-6 animate-in slide-in-from-top-2">
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="flex justify-between">
@@ -86,7 +69,7 @@ export default function OptionalFields({ filters, onChange }: OptionalFieldsProp
             </div>
           </div>
         </div>
-      </CollapsibleContent>
-    </Collapsible>
+      </div>
+    </div>
   );
 }
