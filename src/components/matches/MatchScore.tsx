@@ -9,13 +9,13 @@ export default function MatchScore({ score, className }: MatchScoreProps) {
   const percentage = Math.round(score * 100);
   
   // Determine color based on score
-  let colorClass = "bg-gray-100 text-gray-800";
+  let colorClass = "bg-muted text-muted-foreground border-border";
   if (score >= 0.8) {
-    colorClass = "bg-green-100 text-green-800 border-green-200";
+    colorClass = "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800";
   } else if (score >= 0.6) {
-    colorClass = "bg-yellow-100 text-yellow-800 border-yellow-200";
+    colorClass = "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800";
   } else {
-    colorClass = "bg-orange-100 text-orange-800 border-orange-200";
+    colorClass = "bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800";
   }
 
   return (

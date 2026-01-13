@@ -20,7 +20,7 @@ export default function MatchCard({ match }: MatchCardProps) {
   if (!grant) return null;
 
   return (
-    <div className="px-4 py-6">
+    <div className="p-6 transition-colors hover:bg-muted/30">
       <div className="flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -48,12 +48,14 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
       </div>
 
-      <div className="mt-4 space-y-4">
-        <div className="rounded-md border border-input bg-muted/20 p-4">
-          <div className="flex items-start gap-2">
-            <Sparkles className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+      <div className="mt-6 space-y-4">
+        <div className="rounded-lg border bg-muted/50 p-4">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-md bg-background shadow-sm">
+              <Sparkles className="h-4 w-4 text-primary shrink-0" />
+            </div>
             <div>
-              <h4 className="text-sm font-semibold text-foreground mb-1">
+              <h4 className="text-sm font-medium text-foreground mb-1">
                 Why this matches
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -63,7 +65,7 @@ export default function MatchCard({ match }: MatchCardProps) {
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed px-1">
           {grant.description}
         </p>
 
@@ -72,21 +74,21 @@ export default function MatchCard({ match }: MatchCardProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="w-full justify-between text-xs text-muted-foreground hover:text-foreground"
+              className="w-full justify-between text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
               {isOpen ? "Hide AI Insights" : "Show AI Insights"}
               {isOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="mt-2 space-y-2 text-sm">
-            <div className="rounded border border-primary/20 bg-primary/10 p-3 text-xs text-primary">
+          <CollapsibleContent className="mt-2 space-y-2 text-sm px-1">
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs text-primary leading-relaxed italic">
               <strong>Tip:</strong> This grant aligns well with your KPIs. Consider highlighting your timeline in the application.
             </div>
           </CollapsibleContent>
         </Collapsible>
       </div>
 
-      <div className="mt-4 flex justify-end">
+      <div className="mt-6 flex justify-end">
         <Link href={`/grants/${grant.id}`}>
           <Button className="group" variant="default">
             View Grant Details

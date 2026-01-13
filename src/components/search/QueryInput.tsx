@@ -55,9 +55,6 @@ export default function QueryInput({
           <CornerDownLeft className="h-4 w-4" />
         </button>
       </div>
-      <div className="text-xs text-muted-foreground text-right">
-        {value.length} characters
-      </div>
     </div>
   );
 }
