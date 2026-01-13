@@ -15,10 +15,11 @@ export default function MatchesPage({
   
   return (
     <div className="container mx-auto p-6 md:p-8 space-y-8">
-      <div className="flex items-center gap-4">
+      <div>
         <Link href="/dashboard">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-5 w-5" />
+          <Button variant="ghost" size="sm" className="mb-4">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Dashboard
           </Button>
         </Link>
         <div>
