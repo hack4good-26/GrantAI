@@ -22,18 +22,16 @@ export default function MatchCard({ match }: MatchCardProps) {
   if (!grant) return null;
 
   return (
-    <Card className="overflow-hidden transition-all duration-200 hover:shadow-md border-l-4 border-l-blue-500">
+    <Card className="overflow-hidden transition-all duration-200 hover:shadow-md border-l-4 border-l-primary">
       <CardHeader className="flex flex-row items-start gap-4 pb-2">
         <div className="flex-1 space-y-1">
           <div className="flex items-center justify-between">
-            <Badge variant="outline" className="mb-2">
-              {grant.source}
-            </Badge>
+            <Badge variant="outline">{grant.source}</Badge>
             {decision_recommendation === 'APPLY' && (
-              <Badge className="bg-green-600 hover:bg-green-700">Recommended</Badge>
+              <Badge className="bg-primary text-primary-foreground hover:bg-primary/90">Recommended</Badge>
             )}
           </div>
-          <h3 className="font-bold text-xl leading-tight text-blue-900">
+          <h3 className="font-bold text-xl leading-tight text-foreground">
             {grant.title}
           </h3>
           <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
@@ -53,21 +51,21 @@ export default function MatchCard({ match }: MatchCardProps) {
       </CardHeader>
       
       <CardContent className="pb-2">
-        <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg my-2 border border-slate-100 dark:border-slate-800">
+        <div className="bg-muted/30 p-4 rounded-lg my-2 border border-border">
           <div className="flex items-start gap-2">
-            <Sparkles className="h-5 w-5 text-purple-500 mt-0.5 shrink-0" />
+            <Sparkles className="h-5 w-5 text-primary mt-0.5 shrink-0" />
             <div>
-              <h4 className="font-semibold text-sm text-purple-900 dark:text-purple-300 mb-1">
+              <h4 className="font-semibold text-sm text-foreground mb-1">
                 Why this matches
               </h4>
-              <p className="text-sm text-slate-700 dark:text-slate-300">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {match_reasoning}
               </p>
             </div>
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-2">
+        <p className="text-sm text-muted-foreground line-clamp-2 mt-2 leading-relaxed">
           {grant.description}
         </p>
 
@@ -79,14 +77,14 @@ export default function MatchCard({ match }: MatchCardProps) {
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2 space-y-2 text-sm">
-            <div className="bg-blue-50/50 p-3 rounded text-blue-800 text-xs">
+            <div className="bg-primary/10 p-3 rounded text-primary text-xs border border-primary/20">
               <strong>Tip:</strong> This grant aligns well with your KPIs. Consider highlighting your timeline in the application.
             </div>
           </CollapsibleContent>
         </Collapsible>
       </CardContent>
 
-      <CardFooter className="pt-2 bg-slate-50/50 dark:bg-slate-900/50 border-t">
+      <CardFooter className="pt-2 bg-muted/10 border-t border-border">
         <Link href={`/grants/${grant.id}`} className="w-full">
           <Button className="w-full group" variant="default">
             View Grant Details

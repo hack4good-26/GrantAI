@@ -48,7 +48,7 @@ export default function SearchForm() {
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6">
       <div className="text-center space-y-2 mb-8">
-        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
           What service grants are you looking for?
         </h1>
         <p className="text-muted-foreground text-lg">
@@ -66,7 +66,7 @@ export default function SearchForm() {
             <Button 
               type="submit" 
               size="lg" 
-              className="w-full text-lg h-12 bg-blue-600 hover:bg-blue-700 shadow-md transition-all hover:scale-[1.01]"
+              className="w-full text-lg h-12 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md transition-all hover:scale-[1.01]"
               disabled={!query.trim()}
             >
               {isLoading ? (

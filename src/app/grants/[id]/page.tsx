@@ -85,7 +85,7 @@ export default function GrantDetailPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardContent className="pt-6 flex flex-col items-center text-center">
-                <DollarSign className="h-8 w-8 text-blue-600 mb-2" />
+                <DollarSign className="h-8 w-8 text-primary mb-2" />
                 <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Funding Amount</div>
                 <div className="font-bold text-lg mt-1">
                   ${grant.funding_min?.toLocaleString()} - ${grant.funding_max?.toLocaleString()}
@@ -94,7 +94,7 @@ export default function GrantDetailPage() {
             </Card>
             <Card>
               <CardContent className="pt-6 flex flex-col items-center text-center">
-                <Calendar className="h-8 w-8 text-blue-600 mb-2" />
+                <Calendar className="h-8 w-8 text-primary mb-2" />
                 <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Application Deadline</div>
                 <div className="font-bold text-lg mt-1">
                   {new Date(grant.deadline || "").toLocaleDateString()}
@@ -103,7 +103,7 @@ export default function GrantDetailPage() {
             </Card>
             <Card>
               <CardContent className="pt-6 flex flex-col items-center text-center">
-                <Clock className="h-8 w-8 text-blue-600 mb-2" />
+                <Clock className="h-8 w-8 text-primary mb-2" />
                 <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Project Duration</div>
                 <div className="font-bold text-lg mt-1">
                   {grant.duration_months} Months
@@ -155,19 +155,19 @@ export default function GrantDetailPage() {
       </div>
 
       {/* AI Chat Sidebar - Right Side */}
-      <div className="lg:w-[400px] border-l bg-slate-50 dark:bg-slate-900 flex flex-col h-[500px] lg:h-full shadow-xl">
-        <div className="p-4 border-b bg-white dark:bg-slate-950 flex items-center gap-2 sticky top-0 z-10">
-          <Sparkles className="h-5 w-5 text-purple-600" />
+      <div className="lg:w-[400px] border-l border-border bg-sidebar text-sidebar-foreground flex flex-col h-[500px] lg:h-full shadow-xl">
+        <div className="p-4 border-b border-sidebar-border bg-sidebar flex items-center gap-2 sticky top-0 z-10">
+          <Sparkles className="h-5 w-5 text-accent-foreground" />
           <h2 className="font-semibold">AI Grant Advisor</h2>
         </div>
 
         <ScrollArea className="flex-1 p-4" ref={scrollRef}>
           <div className="space-y-4">
             <div className="flex gap-3">
-              <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
-                <Bot className="h-5 w-5 text-purple-600" />
+              <div className="h-8 w-8 rounded-full bg-sidebar-accent flex items-center justify-center shrink-0">
+                <Bot className="h-5 w-5 text-sidebar-accent-foreground" />
               </div>
-              <div className="bg-white dark:bg-slate-800 p-3 rounded-lg rounded-tl-none shadow-sm text-sm border">
+              <div className="bg-card text-card-foreground p-3 rounded-lg rounded-tl-none shadow-sm text-sm border border-border">
                 <p>Hello! I'm your AI assistant for the <strong>{grant.title}</strong>. Ask me anything about eligibility, application tips, or how to frame your proposal.</p>
               </div>
             </div>
@@ -175,18 +175,18 @@ export default function GrantDetailPage() {
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
                 <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 ${
-                  msg.role === 'user' ? 'bg-blue-100' : 'bg-purple-100'
+                  msg.role === 'user' ? 'bg-primary/20' : 'bg-sidebar-accent'
                 }`}>
                   {msg.role === 'user' ? (
-                    <User className="h-5 w-5 text-blue-600" />
+                    <User className="h-5 w-5 text-primary" />
                   ) : (
-                    <Bot className="h-5 w-5 text-purple-600" />
+                    <Bot className="h-5 w-5 text-sidebar-accent-foreground" />
                   )}
                 </div>
                 <div className={`p-3 rounded-lg shadow-sm text-sm max-w-[85%] border ${
                   msg.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-tr-none border-blue-600' 
-                    : 'bg-white dark:bg-slate-800 rounded-tl-none'
+                    ? 'bg-primary text-primary-foreground rounded-tr-none border-primary' 
+                    : 'bg-card text-card-foreground rounded-tl-none border-border'
                 }`}>
                   <p>{msg.content}</p>
                 </div>
@@ -195,26 +195,26 @@ export default function GrantDetailPage() {
 
             {isTyping && (
               <div className="flex gap-3">
-                <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
-                  <Bot className="h-5 w-5 text-purple-600" />
+                <div className="h-8 w-8 rounded-full bg-sidebar-accent flex items-center justify-center shrink-0">
+                  <Bot className="h-5 w-5 text-sidebar-accent-foreground" />
                 </div>
-                <div className="bg-white dark:bg-slate-800 p-3 rounded-lg rounded-tl-none shadow-sm text-sm border flex items-center gap-1">
-                  <span className="h-2 w-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="h-2 w-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="h-2 w-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="bg-card text-card-foreground p-3 rounded-lg rounded-tl-none shadow-sm text-sm border border-border flex items-center gap-1">
+                  <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             )}
           </div>
         </ScrollArea>
 
-        <div className="p-4 border-t bg-white dark:bg-slate-950">
+        <div className="p-4 border-t border-sidebar-border bg-sidebar">
           <form onSubmit={handleSendMessage} className="flex gap-2">
             <Input
               placeholder="Ask a question..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1"
+              className="flex-1 bg-background"
             />
             <Button type="submit" size="icon" disabled={!input.trim() || isTyping}>
               <Send className="h-4 w-4" />

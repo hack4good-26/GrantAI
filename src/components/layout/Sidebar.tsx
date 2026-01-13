@@ -45,17 +45,17 @@ export default function Sidebar({ className }: SidebarProps) {
   ];
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-900 border-r">
-      <div className={cn("flex items-center h-16 px-4 border-b", isCollapsed ? "justify-center" : "justify-between")}>
+    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+      <div className={cn("flex items-center h-16 px-4 border-b border-sidebar-border", isCollapsed ? "justify-center" : "justify-between")}>
         {!isCollapsed && (
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             GrantAdvisor
           </span>
         )}
         <Button 
           variant="ghost" 
           size="icon" 
-          className="hidden md:flex"
+          className="hidden md:flex text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -69,8 +69,8 @@ export default function Sidebar({ className }: SidebarProps) {
               key={route.href}
               href={route.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                route.active ? "bg-muted text-primary font-medium" : "text-muted-foreground",
+                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-sidebar-accent-foreground hover:bg-sidebar-accent",
+                route.active ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground/70",
                 isCollapsed && "justify-center px-2"
               )}
               title={isCollapsed ? route.label : undefined}
@@ -82,19 +82,18 @@ export default function Sidebar({ className }: SidebarProps) {
         </nav>
       </ScrollArea>
       
-      <div className="p-4 border-t">
+      <div className="p-4 border-t border-sidebar-border">
          {!isCollapsed ? (
            <div className="flex items-center gap-3">
-             <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold">
+             <div className="h-8 w-8 rounded-full bg-sidebar-primary flex items-center justify-center text-sidebar-primary-foreground font-bold">
                U
              </div>
              <div className="flex flex-col">
                <span className="text-sm font-medium">User</span>
-               <span className="text-xs text-muted-foreground">Free Plan</span>
              </div>
            </div>
          ) : (
-            <div className="h-8 w-8 mx-auto rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold">
+            <div className="h-8 w-8 mx-auto rounded-full bg-sidebar-primary flex items-center justify-center text-sidebar-primary-foreground font-bold">
               U
             </div>
          )}
