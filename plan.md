@@ -1,5 +1,114 @@
 # 🚀 Grant Intent Advisor - Implementation Plan
 
+## 🎯 Frontend User Flow (Comprehensive Platform)
+
+A comprehensive grant discovery and matching platform with 4 main user flows:
+
+### **Flow 1: Search for Matching Grants**
+1. **Landing Page (`/dashboard`)** → Clean search interface
+   - Large textarea for query (REQUIRED)
+   - Collapsible optional fields (cost, timeline, beneficiaries, outcomes)
+2. **Submit** → Service idea saved, semantic vector search runs
+3. **Results Page (`/matches`)** → List of matching grants sorted by score
+   - Each grant shows: basic info, matching score, AI reasoning
+   - Collapsible AI explainer under each grant
+   - Link to full grant details
+
+### **Flow 2: Browse All Grants**
+1. **Grants Page (`/grants`)** → View all available grants in grid
+   - Filter by: status, source, funding range, deadline
+   - Sort by: newest, deadline, funding amount
+2. **Grant Detail (`/grants/[id]`)** → Full grant information
+   - Intent analysis (collapsible)
+   - AI Explainer at bottom (ask questions)
+
+### **Flow 3: View Search History**
+1. **History Page (`/history`)** → See all past searches with timestamps
+2. **Click any search** → Navigate back to that search's matches
+3. **Track progress** → See match counts for each search
+
+### **Flow 4: Navigation**
+- **Sidebar** with links to: Dashboard, Browse Grants, Search History
+- Active page highlighted
+- Responsive: drawer on mobile, fixed sidebar on desktop
+
+---
+
+## 🗺️ Application Map
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         SIDEBAR                              │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  🏠 Dashboard (New Search)                           │   │
+│  │  📋 Browse Grants                                    │   │
+│  │  🕐 Search History                                   │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┐      ┌────────────────┐      ┌────────────────┐
+│   Dashboard    │──▶   │    Matches     │──▶   │  Grant Detail  │
+│   /dashboard   │      │  /matches?id=X │      │  /grants/[id]  │
+│                │      │                │      │                │
+│  • Query input │      │  • Grant cards │      │  • Full info   │
+│  • Optional    │      │  • Match scores│      │  • Intent      │
+│    fields      │      │  • AI reasoning│      │  • AI Explainer│
+│  • Submit      │      │  • Mini explain│      │    (full)      │
+└────────────────┘      └────────────────┘      └────────────────┘
+                                 ▲                       │
+                                 │                       │
+                                 └───────────────────────┘
+                                    (View Details)
+
+┌────────────────┐      ┌────────────────┐
+│   History      │──▶   │    Matches     │
+│   /history     │      │  /matches?id=X │
+│                │      │  (revisit old) │
+│  • Past        │      └────────────────┘
+│    searches    │
+│  • Timestamps  │      ┌────────────────┐
+│  • Match counts│──▶   │  Grant Detail  │
+└────────────────┘      │  /grants/[id]  │
+                        │                │
+┌────────────────┐      │  • Browse      │
+│  Browse Grants │──▶   │  • Discover    │
+│   /grants      │      │  • Learn       │
+│                │      └────────────────┘
+│  • All grants  │
+│  • Filter/Sort │
+│  • Discover    │
+└────────────────┘
+```
+
+---
+
+## 📋 Complete Feature List
+
+### **Core Features**
+1. ✅ **Search & Matching** - Natural language query → AI-powered grant matches with scores and reasoning
+2. ✅ **Browse Grants** - View all available grants with filter/sort functionality
+3. ✅ **Grant Details** - Full grant information with intent analysis
+4. ✅ **AI Explainer** - Ask questions about any grant, get contextual answers
+5. ✅ **Search History** - Track and revisit past searches
+6. ✅ **Sidebar Navigation** - Easy navigation between all pages
+
+### **Pages Summary**
+| Page | Route | Purpose |
+|------|-------|---------|
+| **Dashboard** | `/dashboard` | Main search interface (landing page) |
+| **Matches** | `/matches?id=X` | Show grants matching a service idea |
+| **History** | `/history` | List all past searches with timestamps |
+| **Browse Grants** | `/grants` | Discover all available grants |
+| **Grant Detail** | `/grants/[id]` | Full grant info + AI Q&A |
+
+### **AI Components**
+- **Vector Search**: Semantic matching using pgvector and embeddings
+- **Intent Analysis**: Deep analysis of grant requirements and philosophical stance
+- **Match Reasoning**: AI-generated explanation of why grants match service ideas
+- **Grant Explainer**: Conversational AI to answer questions about grants
+
+---
+
 ## 📋 Day-by-Day Overview
 
 ### **DAY 1: Foundation + Scraping Infrastructure**
@@ -8,14 +117,17 @@
 ### **DAY 2: AI Intent Analysis Engine**
 **Goal:** Build AI system to analyze grants and extract intent profiles
 
-### **DAY 3: Service Idea Matching System**
-**Goal:** Build semantic matching between service ideas and grants
+### **DAY 3: Search Interface & Match Results UI**
+**Goal:** Build search form and display matching grants with AI reasoning
 
-### **DAY 4: Decision Dashboard & UI Polish**
-**Goal:** Build main decision dashboard that reduces cognitive load
+### **DAY 4: History Page & Grants Browse Page**
+**Goal:** Add /history page for past searches and /grants page to browse all grants
 
-### **DAY 5: Grant Intent Explainer & Advanced Features**
-**Goal:** Build conversational AI for grant understanding
+### **DAY 5: Grant Detail Page & AI Explainer**
+**Goal:** Build /grants/[id] with full grant info and integrated AI Q&A system
+
+### **DAY 5.5: Sidebar Navigation**
+**Goal:** Add persistent sidebar navigation connecting all pages
 
 ### **DAY 6: Sample Data, Testing & Refinement**
 **Goal:** Create realistic sample data and test all features
@@ -27,74 +139,69 @@
 
 ## 📁 Project Structure
 
-### **Next.js Frontend Structure**
+### **Next.js Frontend Structure (Comprehensive Platform)**
 ```
 grant-advisor/
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx
+│   │   ├── layout.tsx (root layout with sidebar)
 │   │   ├── page.tsx (redirect to dashboard)
 │   │   ├── globals.css
-│   │   ├── (dashboard)/
-│   │   │   ├── layout.tsx (dashboard layout wrapper)
-│   │   │   ├── dashboard/
-│   │   │   │   └── page.tsx (main dashboard)
-│   │   │   ├── grants/
-│   │   │   │   ├── page.tsx (grants list)
-│   │   │   │   └── [id]/
-│   │   │   │       └── page.tsx (grant detail + explainer)
-│   │   │   └── service-ideas/
-│   │   │       ├── page.tsx (service ideas list)
-│   │   │       ├── new/
-│   │   │       │   └── page.tsx (create service idea form)
-│   │   │       └── [id]/
-│   │   │           └── matches/
-│   │   │               └── page.tsx (match results)
-│   │   └── api/
-│   │       └── (optional proxy routes if needed)
+│   │   ├── dashboard/
+│   │   │   └── page.tsx (search interface landing page)
+│   │   ├── matches/
+│   │   │   └── page.tsx (results page with grant matches)
+│   │   ├── history/
+│   │   │   └── page.tsx (view all previous searches)
+│   │   └── grants/
+│   │       ├── page.tsx (browse all available grants)
+│   │       └── [id]/
+│   │           └── page.tsx (individual grant detail + AI explainer)
 │   │
 │   ├── components/
 │   │   ├── ui/ (shadcn components)
 │   │   │   ├── button.tsx
 │   │   │   ├── card.tsx
 │   │   │   ├── badge.tsx
-│   │   │   ├── form.tsx
 │   │   │   ├── input.tsx
 │   │   │   ├── textarea.tsx
-│   │   │   ├── tabs.tsx
+│   │   │   ├── label.tsx
+│   │   │   ├── collapsible.tsx
 │   │   │   ├── alert.tsx
-│   │   │   ├── dialog.tsx
-│   │   │   ├── scroll-area.tsx
+│   │   │   ├── skeleton.tsx
 │   │   │   ├── separator.tsx
-│   │   │   └── skeleton.tsx
+│   │   │   ├── tabs.tsx
+│   │   │   └── scroll-area.tsx
 │   │   │
 │   │   ├── layout/
-│   │   │   ├── DashboardLayout.tsx (sidebar + header)
-│   │   │   ├── Header.tsx
-│   │   │   └── Sidebar.tsx
+│   │   │   ├── Sidebar.tsx (navigation with links)
+│   │   │   └── Header.tsx (optional top nav)
 │   │   │
-│   │   ├── grants/
-│   │   │   ├── GrantCard.tsx
-│   │   │   ├── GrantList.tsx
-│   │   │   ├── GrantIntentProfile.tsx
-│   │   │   └── GrantExplainer.tsx
-│   │   │
-│   │   ├── service-ideas/
-│   │   │   ├── ServiceIdeaForm.tsx
-│   │   │   ├── ServiceIdeaCard.tsx
-│   │   │   └── ServiceIdeaList.tsx
+│   │   ├── search/
+│   │   │   ├── SearchForm.tsx (main form with React Hook Form)
+│   │   │   ├── QueryInput.tsx (large required textarea)
+│   │   │   └── OptionalFields.tsx (collapsible structured fields)
 │   │   │
 │   │   ├── matches/
-│   │   │   ├── MatchCard.tsx
-│   │   │   ├── MatchAnalysis.tsx
-│   │   │   └── MatchRecommendation.tsx
+│   │   │   ├── MatchCard.tsx (grant + score + reasoning + mini explainer)
+│   │   │   ├── MatchList.tsx (sorted list of matches)
+│   │   │   └── MatchScore.tsx (visual score indicator)
 │   │   │
-│   │   ├── dashboard/
-│   │   │   ├── PriorityCard.tsx
-│   │   │   ├── StatsCard.tsx
-│   │   │   └── ActionItem.tsx
+│   │   ├── grants/
+│   │   │   ├── GrantCard.tsx (for /grants list view)
+│   │   │   ├── GrantList.tsx (grid of grant cards)
+│   │   │   ├── GrantDetail.tsx (full grant information display)
+│   │   │   ├── GrantExplainer.tsx (AI Q&A section)
+│   │   │   └── GrantFilters.tsx (filter/sort controls - optional)
 │   │   │
-│   │   └── ErrorBoundary.tsx
+│   │   ├── history/
+│   │   │   ├── HistoryCard.tsx (past search display card)
+│   │   │   ├── HistoryList.tsx (list of past searches)
+│   │   │   └── HistoryItem.tsx (individual history item)
+│   │   │
+│   │   └── shared/
+│   │       ├── LoadingSpinner.tsx
+│   │       └── EmptyState.tsx
 │   │
 │   ├── lib/
 │   │   ├── api.ts (API client with axios)
@@ -102,8 +209,7 @@ grant-advisor/
 │   │   └── types.ts (TypeScript interfaces)
 │   │
 │   └── hooks/
-│       ├── useGrants.ts
-│       ├── useServiceIdeas.ts
+│       ├── useSearchHistory.ts (fetch search history)
 │       └── useMatches.ts
 │
 ├── public/
@@ -117,6 +223,42 @@ grant-advisor/
 ├── package.json
 └── README.md
 ```
+
+### **Key Frontend Pages**
+
+**1. Dashboard (`/dashboard`)** - Search landing page
+- Large textarea for query (REQUIRED)
+- Collapsible optional fields (cost, timeline, beneficiaries, outcomes)
+- "Find Grants" button
+
+**2. Matches (`/matches?id=X`)** - Search results
+- List of grants sorted by similarity score
+- Each grant: basic info, match score, AI reasoning
+- Collapsible mini AI explainer under each grant
+- Link to full grant details
+
+**3. History (`/history`)** - Past searches
+- List of all previous searches with timestamps
+- Shows match count for each search
+- Click to navigate back to matches
+
+**4. Grants (`/grants`)** - Browse all grants
+- Grid of all available grants (informational)
+- Filter by: status, source, funding, deadline
+- Sort by: newest, deadline, funding amount
+- Click any grant to view details
+
+**5. Grant Detail (`/grants/[id]`)** - Individual grant
+- Full grant information
+- Intent analysis (collapsible)
+- Eligibility & requirements
+- AI Explainer at bottom (full version with conversation history)
+
+**6. Sidebar Navigation** - Persistent across all pages
+- Logo/branding
+- Links: Dashboard, Browse Grants, Search History
+- Active state highlighting
+- Responsive: drawer on mobile, fixed sidebar on desktop
 
 ### **Python FastAPI Backend Structure**
 ```
@@ -268,34 +410,21 @@ grant-advisor-api/
 - [ ] Handle errors gracefully
 - [ ] Add response models with Pydantic
 
-### Frontend Grant Display
+### Frontend Setup (Simplified)
 - [ ] Install shadcn components: `button`, `card`, `badge`, `skeleton`
-- [ ] Create `GrantCard.tsx`:
-  - Display grant title, source, description
-  - Show funding range, deadline
-  - Status badge
-  - "Analyze Intent" button
-- [ ] Create `GrantList.tsx`:
-  - Grid layout for grant cards
-  - Handle loading state
-  - Handle empty state
-- [ ] Create `app/(dashboard)/grants/page.tsx`:
-  - Fetch grants from API
-  - Display grant list
-  - Handle analysis trigger
-  - Show loading indicators
-- [ ] Update `lib/api.ts` with grant methods:
-  - `grantsApi.getAll()`
-  - `grantsApi.getById(id)`
-  - `grantsApi.analyzeGrant(id)`
-  - `grantsApi.getIntentProfile(id)`
+- [ ] Verify `lib/api.ts` has grant methods:
+  - `grantsApi.getAll()` (for backend testing)
+  - `grantsApi.getById(id)` (used by match results)
+  - `grantsApi.analyzeGrant(id)` (backend only)
+  - `grantsApi.getIntentProfile(id)` (used in match reasoning)
+- [ ] No separate grants page needed - grants only shown in match results
 
 **End of Day 2:**
 - ✅ AI intent analysis working
 - ✅ Grants analyzed and profiles stored
 - ✅ Embeddings generated
-- ✅ Frontend displaying grants
-- ✅ Can trigger analysis from UI
+- ✅ Frontend API client ready
+- ✅ Ready for Day 3: Search interface implementation
 
 ---
 
@@ -347,38 +476,72 @@ grant-advisor-api/
   - Match analysis (if exists)
   - Placeholder if analysis needed
 
-### Frontend Service Ideas
-- [ ] Install shadcn components: `form`, `input`, `textarea`, `select`, `label`
-- [ ] Create `ServiceIdeaForm.tsx`:
+### Frontend Search Interface & Match Results
+- [ ] Install shadcn components: `input`, `textarea`, `label`, `collapsible`, `badge`, `card`, `button`, `skeleton`, `alert`
+- [ ] Create `QueryInput.tsx`:
+  - Large, prominent textarea (4-6 rows)
+  - Required field
+  - Character count indicator
+  - Placeholder: "Describe your service idea... (e.g., I want to increase capacity for elderly care services)"
+- [ ] Create `OptionalFields.tsx`:
+  - Collapsible section (default: collapsed)
+  - Trigger button: "Add more details for better matches (optional)"
+  - Contains optional fields:
+    - Estimated Cost (number input with $ prefix)
+    - Timeline in months (number input)
+    - Target Beneficiaries (textarea, 2 rows)
+    - Expected Outcomes (textarea, 2 rows)
+- [ ] Create `SearchForm.tsx`:
   - React Hook Form setup
-  - Zod validation schema
-  - Form fields: title, description, estimated_cost, timeline_months, target_beneficiaries, expected_outcomes
-  - Submit handler
-  - Loading state
-- [ ] Create `app/(dashboard)/service-ideas/new/page.tsx`:
-  - Form wrapper
-  - Instructions for users
-  - Handle form submission
-  - Redirect to matches on success
+  - Zod validation schema (query required, others optional)
+  - Integrates QueryInput + OptionalFields
+  - Submit handler:
+    - Call `serviceIdeasApi.create()` with query as title/description
+    - Show loading state
+    - Navigate to `/matches?id={serviceIdeaId}`
+  - Error handling
+- [ ] Create `app/dashboard/page.tsx`:
+  - Hero section with title and description
+  - SearchForm component (centered, max-width)
+  - Clean, focused design
+- [ ] Create `MatchScore.tsx`:
+  - Visual score indicator (colored badge or progress bar)
+  - Color coding: green (80%+), yellow (60-80%), gray (<60%)
+  - Show percentage prominently
 - [ ] Create `MatchCard.tsx`:
-  - Display grant info
-  - Similarity score visualization
-  - Match reasoning display
+  - Display grant info (title, source, funding, deadline)
+  - Integrate MatchScore component
+  - Match reasoning section with "Why this matches" heading
   - "Why This Fits" list
   - "Potential Concerns" list
   - Decision recommendation badge
-  - Effort and probability badges
-- [ ] Create `app/(dashboard)/service-ideas/[id]/matches/page.tsx`:
-  - Fetch matches from API
-  - Display match cards in order
-  - Handle loading state
-  - Handle no matches state
-  - "Run Detailed Analysis" button for unanalyzed matches
+  - Collapsible section at bottom for AI Explainer (integrated)
+- [ ] Create `MatchList.tsx`:
+  - Takes array of GrantMatch objects
+  - Sorts by similarity_score descending
+  - Renders MatchCard for each match
+  - Grid or stacked responsive layout
+- [ ] Create `LoadingSpinner.tsx`:
+  - Center-aligned spinner
+  - Optional loading text ("Finding matching grants...")
+- [ ] Create `EmptyState.tsx`:
+  - Shows when no matches found
+  - Helpful message and suggestions
+  - "New Search" button
+- [ ] Create `app/matches/page.tsx`:
+  - Get serviceIdeaId from URL query params
+  - Fetch matches using `serviceIdeasApi.getMatches(id)`
+  - Show LoadingSpinner while fetching
+  - Display search query at top (optional)
+  - Render MatchList with results
+  - Show match count: "Found X matching grants"
+  - "New Search" button to go back
+  - Handle errors and empty state
 - [ ] Update API client with service methods:
   - `serviceIdeasApi.create()`
-  - `serviceIdeasApi.getAll()`
+  - `serviceIdeasApi.getAll()` (for history)
   - `serviceIdeasApi.getMatches(id)`
-  - `serviceIdeasApi.analyzeMatch(ideaId, grantId)`
+  - `serviceIdeasApi.analyzeMatch(ideaId, grantId)` (for explainer)
 
 **End of Day 3:**
 - ✅ Service idea creation working
@@ -389,86 +552,75 @@ grant-advisor-api/
 
 ---
 
-## **DAY 4: Decision Dashboard & UI Polish**
+## **DAY 4: Sidebar Navigation & Search History**
 
-### Backend Dashboard Data
-- [ ] Create `routers/dashboard.py`
-- [ ] Implement endpoints:
-  - `GET /api/dashboard/stats` (statistics for dashboard)
-  - `GET /api/dashboard/priorities` (prioritized action items)
-- [ ] Dashboard stats logic:
-  - Count active service ideas
-  - Count total matches
-  - Count urgent deadlines (within 6 weeks)
-  - Calculate time saved (estimate)
-- [ ] Priority items logic:
-  - Get all service ideas with match counts
-  - Determine status (ACTIVE, WATCH, FUTURE) based on:
-    - Deadline urgency
-    - Match quality (APPLY recommendations)
-    - Time until deadline
-  - Calculate priority (HIGH, MEDIUM, LOW)
-  - Sort by priority
-  - Return structured data
+### Backend Search History Endpoint (Optional)
+- [ ] Add endpoint to `routers/service_ideas.py`:
+  - `GET /api/service-ideas` (list all service ideas with pagination)
+  - Return: id, title (query), created_at, match_count
+  - Order by created_at descending (most recent first)
+- [ ] Add created_at timestamp to ServiceIdea model if not exists
 
-### Frontend Dashboard Components
-- [ ] Install shadcn components: `tabs`, `alert`, `progress`, `separator`, `avatar`, `dropdown-menu`
-- [ ] Create `DashboardLayout.tsx`:
-  - Header with logo and settings
-  - Sidebar navigation
-  - Links to: Dashboard, Service Ideas, Grants, Search
-  - Active state highlighting
-- [ ] Create `StatsCard.tsx`:
-  - Display single metric
-  - Icon + value + description
-  - Different variants for different metrics
-- [ ] Create `PriorityCard.tsx`:
-  - Service idea information
-  - Status badge (ACTIVE/WATCH/FUTURE)
-  - Priority indicator (colored bar)
-  - Match count
-  - Deadline information
-  - Estimated effort
-  - Action buttons
-- [ ] Create `app/(dashboard)/dashboard/page.tsx`:
-  - Fetch dashboard stats
-  - Display 4 stats cards in grid
-  - Urgent alert banner if needed
-  - Tabs for filtering priorities
-  - List of priority cards
-  - Empty state with CTA
-- [ ] Apply dashboard layout to all routes:
-  - Move dashboard, grants, service-ideas into `(dashboard)` group
-  - Create group layout with DashboardLayout wrapper
-- [ ] Create `app/(dashboard)/service-ideas/page.tsx`:
-  - List all service ideas
-  - Card layout
-  - Show basic info + match count
-  - Link to matches
-  - "New Idea" button
+### Frontend Sidebar & Navigation
+- [ ] Install shadcn components: `scroll-area`, `separator`, `dropdown-menu`
+- [ ] Create `useSearchHistory.ts` hook:
+  - Fetch search history from API: `GET /api/service-ideas`
+  - Or use localStorage for client-side persistence
+  - Methods: getHistory(), addToHistory(serviceIdea), clearHistory()
+- [ ] Create `SearchHistoryItem.tsx`:
+  - Display service idea title/query (truncated)
+  - Show timestamp (relative: "2 hours ago")
+  - Show match count if available
+  - Click handler to navigate to `/matches?id={id}`
+  - Hover effect
+- [ ] Create `Sidebar.tsx`:
+  - Logo/branding at top
+  - "New Search" button (navigates to `/dashboard`)
+  - Search history section:
+    - Heading: "Recent Searches"
+    - Scrollable list of SearchHistoryItem components
+    - Show latest 10 searches
+    - Empty state: "No searches yet"
+  - Fixed width (250-300px)
+  - Collapsible on mobile
+- [ ] Update `app/layout.tsx`:
+  - Integrate Sidebar component
+  - Create flex layout: Sidebar (fixed) + Main content (flex-1)
+  - Ensure Sidebar persists across all pages
+  - Add mobile menu toggle
+- [ ] Update `app/dashboard/page.tsx`:
+  - Ensure SearchForm updates history on submission
+  - Call `addToHistory()` after service idea created
+- [ ] Update `app/matches/page.tsx`:
+  - Highlight current search in sidebar if visible
+  - Add breadcrumb or back button
+
+### Polish & Responsive Design
+- [ ] Responsive sidebar:
+  - Desktop: Always visible, fixed width
+  - Tablet: Collapsible with toggle button
+  - Mobile: Drawer/modal overlay
 - [ ] Polish UI consistency:
-  - Consistent spacing
+  - Consistent spacing and padding
   - Typography hierarchy
-  - Color scheme
+  - Color scheme (primary, secondary, accent)
   - Button styles
   - Card styles
+  - Hover and focus states
 
 ### Loading States & Error Handling
-- [ ] Create `SkeletonCard.tsx`:
-  - Skeleton UI for loading states
-  - Use on all list pages
-- [ ] Create `ErrorBoundary.tsx`:
-  - Catch React errors
-  - Display friendly error message
-  - Reload button
+- [ ] Create skeleton loaders:
+  - Skeleton for SearchHistoryItem
+  - Skeleton for MatchCard
 - [ ] Add loading states to all pages
 - [ ] Add error handling to all API calls
 - [ ] Add empty states with helpful messages
 
 **End of Day 4:**
-- ✅ Complete dashboard with stats
-- ✅ Priority cards showing action items
-- ✅ Navigation working across all pages
+- ✅ Sidebar navigation working
+- ✅ Search history displaying recent searches
+- ✅ Can navigate between searches easily
+- ✅ Responsive design (desktop, tablet, mobile)
 - ✅ Consistent UI/UX
 - ✅ Loading and error states handled
 
@@ -506,39 +658,35 @@ grant-advisor-api/
   - AI-generated answer
   - Grant context used
 
-### Frontend Grant Detail Page
-- [ ] Create `GrantIntentProfile.tsx`:
-  - Display primary intent
-  - Focus areas as badges
-  - Philosophical stance grid
-  - KPI expectations
-  - Potential concerns list
-  - Application tips list
-  - Ideal applicant profile
+### Frontend AI Explainer Integration (Under Each Grant)
 - [ ] Create `GrantExplainer.tsx`:
-  - Question input textarea
-  - Quick question buttons
-  - "Get Answer" button
-  - Answer display with scroll
-  - Loading state during AI processing
-- [ ] Create `app/(dashboard)/grants/[id]/page.tsx`:
-  - Fetch grant details
-  - Fetch intent profile
-  - Display grant header with metadata
-  - Key information cards (funding, deadline, duration)
-  - Intent analysis section
-  - AI explainer section
-  - Link to full grant details
-- [ ] Quick question suggestions:
-  - "Why would this grant reject applications?"
-  - "What type of organization is this really for?"
-  - "How flexible are their KPIs actually?"
-  - "Can a small pilot project get funded?"
-  - "What makes a winning application?"
-- [ ] Update grant cards to link to detail page
+  - Integrated into MatchCard as collapsible section
+  - Trigger button: "Ask questions about this grant"
+  - When expanded:
+    - Question input textarea (3-4 rows)
+    - Quick question buttons:
+      - "Why would this grant reject applications?"
+      - "What type of organization is this really for?"
+      - "How flexible are their KPIs actually?"
+      - "Can a small pilot project get funded?"
+      - "What makes a winning application?"
+    - "Get Answer" button
+    - Answer display section (appears below after response)
+    - Loading state during AI processing
+  - Can ask multiple questions without closing
+  - Each Q&A pair stacks in conversation style
+- [ ] Update `MatchCard.tsx`:
+  - Add collapsible section at bottom
+  - Integrate GrantExplainer component
+  - Pass grant ID and basic grant info
+  - Default: collapsed
+  - Badge indicator: "AI Advisor Available"
 - [ ] Update API client:
-  - `explainerApi.explain(grantId, question)`
-  - `explainerApi.compare(grantIds, criteria)`
+  - `explainerApi.explain(grantId, question)`:
+    - POST request to `/api/grants/{id}/explain`
+    - Request body: { question: string }
+    - Response: { question, answer, grant_context }
+  - Store Q&A history in component state (don't persist)
 
 ### UI Enhancements
 - [ ] Add smooth transitions to buttons
@@ -775,22 +923,46 @@ grant-advisor-api/
 ## 🎯 Final Pre-Demo Checklist
 
 ### Must-Have Working:
-- [ ] Dashboard loads with stats
-- [ ] Can create service idea
-- [ ] Matches appear with similarity scores
-- [ ] Match reasoning displays
-- [ ] Grant detail page shows intent analysis
-- [ ] AI explainer answers questions
-- [ ] Navigation works smoothly
-- [ ] UI looks professional
+**Search Flow:**
+- [ ] Landing page (`/dashboard`) loads with clean search interface
+- [ ] Can enter query (required) + optional fields
+- [ ] Form submission creates service idea and redirects to matches
+- [ ] Matches page displays grants sorted by similarity score
+- [ ] Match reasoning displays for each grant
+- [ ] Matching scores shown prominently with color coding
+- [ ] Mini AI explainer works under each grant (collapsible)
+
+**Grants Browse:**
+- [ ] Grants page (`/grants`) displays all available grants in grid
+- [ ] Can filter and sort grants
+- [ ] Can click any grant to view detail page
+- [ ] Grant detail page (`/grants/[id]`) shows full information
+- [ ] Intent analysis displays on grant detail
+- [ ] Full AI explainer works on grant detail (with conversation history)
+
+**History:**
+- [ ] History page (`/history`) shows all past searches
+- [ ] Each history item shows query, timestamp, match count
+- [ ] Can click any history item to revisit matches
+
+**Navigation:**
+- [ ] Sidebar navigation works across all pages
+- [ ] Active page highlighted in navigation
+- [ ] Can navigate: Dashboard → Grants → History → back
+- [ ] UI looks professional and responsive on all pages
 
 ### Demo Flow Ready:
-- [ ] Can quickly create new service idea
-- [ ] Can show pre-loaded matches
-- [ ] Can demonstrate AI explainer
-- [ ] Can navigate dashboard
-- [ ] Can explain technical architecture
-- [ ] Can articulate value proposition
+- [ ] Can quickly enter new search query on dashboard
+- [ ] Can show pre-loaded matches with various scores
+- [ ] Can demonstrate mini AI explainer on match card
+- [ ] Can navigate to grant detail page from match
+- [ ] Can demonstrate full AI explainer on grant detail
+- [ ] Can browse all grants on /grants page
+- [ ] Can filter/sort grants
+- [ ] Can view search history on /history page
+- [ ] Can navigate to previous search from history
+- [ ] Can explain technical architecture (vector search, embeddings, AI reasoning, intent analysis)
+- [ ] Can articulate value proposition (discovery + matching + insights + decision support)
 
 ### Presentation Ready:
 - [ ] Slides complete
@@ -805,9 +977,31 @@ grant-advisor-api/
 ## 🚀 Key Success Factors
 
 1. **Focus on the core insight**: This is a decision-making problem, not a search problem
-2. **Show, don't tell**: Let the demo speak for itself
+2. **Show, don't tell**: Let the demo speak for itself with multiple user flows
 3. **Emphasize uniqueness**: Intent understanding, not just matching
-4. **Be realistic**: It's a 1-week MVP, acknowledge scope
-5. **Demonstrate impact**: Time saved + better decisions = clear ROI
-6. **Technical depth**: Show off vector search, AI analysis, structured outputs
-7. **Professional polish**: Clean UI matters for credibility
+4. **Comprehensive platform**: Search, browse, history, and deep insights all in one place
+5. **Demonstrate impact**: Time saved + better decisions + grant discovery = clear ROI
+6. **Technical depth**: Show off vector search, AI analysis, structured outputs, conversational AI
+7. **Professional polish**: Clean UI with intuitive navigation matters for credibility
+
+## 🎯 What Makes This Special
+
+**Beyond Simple Matching:**
+- Not just "search and filter" - we understand grant intent
+- Not just similarity scores - we explain why grants match
+- Not just results - we help you understand each grant deeply
+- Not just one-time search - track history and browse all grants
+
+**AI-Powered Intelligence:**
+- Vector embeddings for semantic search
+- Intent analysis reveals hidden grant requirements
+- Match reasoning explains the "why" behind scores
+- Conversational AI answers specific questions about grants
+
+**Complete Platform:**
+- **Search Flow**: Natural language → matched grants
+- **Browse Flow**: Discover grants you didn't know existed
+- **Detail Flow**: Deep dive into any grant with AI assistance
+- **History Flow**: Track and revisit past searches
+
+This is a complete grant discovery and decision support platform, not just a search tool.
