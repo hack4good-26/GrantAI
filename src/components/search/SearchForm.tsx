@@ -46,10 +46,10 @@ export default function SearchForm() {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-6">
       <div className="text-center space-y-2 mb-8">
-        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
           What service grants are you looking for?
         </h1>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-base">
           Describe your project idea and let AI find the perfect funding match.
         </p>
       </div>
