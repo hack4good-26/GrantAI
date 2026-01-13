@@ -10,7 +10,7 @@ export default function MatchList({ matches }: MatchListProps) {
   const sortedMatches = [...matches].sort((a, b) => b.similarity_score - a.similarity_score);
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="divide-y rounded-lg border border-border bg-background">
       {sortedMatches.map((match) => (
         <MatchCard key={match.id} match={match} />
       ))}

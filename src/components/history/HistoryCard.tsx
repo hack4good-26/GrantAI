@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { ServiceIdea } from "@/lib/types";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Calendar, ArrowRight, DollarSign, Clock } from "lucide-react";
+import { ArrowRight, DollarSign, Clock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 interface HistoryCardProps {
@@ -12,21 +10,19 @@ interface HistoryCardProps {
 
 export default function HistoryCard({ idea }: HistoryCardProps) {
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start gap-4">
-          <CardTitle className="text-lg line-clamp-1">
-            {idea.title}
-          </CardTitle>
-          <Badge variant="secondary" className="whitespace-nowrap">
-            {formatDistanceToNow(new Date(idea.created_at), { addSuffix: true })}
-          </Badge>
+    <div className="px-4 py-4">
+      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold leading-tight line-clamp-1">{idea.title}</h3>
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {idea.description}
+          </p>
         </div>
-      </CardHeader>
-      <CardContent className="pb-2">
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-          {idea.description}
-        </p>
+        <Badge variant="secondary" className="whitespace-nowrap self-start">
+          {formatDistanceToNow(new Date(idea.created_at), { addSuffix: true })}
+        </Badge>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-4 text-xs text-muted-foreground">
           {idea.estimated_cost && (
             <div className="flex items-center gap-1">
@@ -41,15 +37,14 @@ export default function HistoryCard({ idea }: HistoryCardProps) {
             </div>
           )}
         </div>
-      </CardContent>
-      <CardFooter className="pt-2">
-        <Link href={`/matches?id=${idea.id}`} className="w-full">
-          <Button variant="ghost" className="w-full justify-between group px-0 hover:bg-transparent hover:text-blue-600">
-            View Matches
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+        <Link
+          href={`/matches?id=${idea.id}`}
+          className="group inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80"
+        >
+          View Matches
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Link>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

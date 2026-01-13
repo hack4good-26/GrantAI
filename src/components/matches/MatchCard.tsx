@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { GrantMatch } from "@/lib/types";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, Sparkles, ArrowRight, Calendar, DollarSign } from "lucide-react";
 import MatchScore from "./MatchScore";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 interface MatchCardProps {
   match: GrantMatch;
@@ -22,19 +20,17 @@ export default function MatchCard({ match }: MatchCardProps) {
   if (!grant) return null;
 
   return (
-    <Card className="overflow-hidden transition-all duration-200 hover:shadow-md border-l-4 border-l-primary">
-      <CardHeader className="flex flex-row items-start gap-4 pb-2">
-        <div className="flex-1 space-y-1">
-          <div className="flex items-center justify-between">
+    <div className="px-4 py-6">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline">{grant.source}</Badge>
-            {decision_recommendation === 'APPLY' && (
+            {decision_recommendation === "APPLY" && (
               <Badge className="bg-primary text-primary-foreground hover:bg-primary/90">Recommended</Badge>
             )}
           </div>
-          <h3 className="font-bold text-xl leading-tight text-foreground">
-            {grant.title}
-          </h3>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
+          <h3 className="text-xl font-semibold leading-tight text-foreground">{grant.title}</h3>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <DollarSign className="h-3.5 w-3.5" />
               <span>
@@ -47,15 +43,17 @@ export default function MatchCard({ match }: MatchCardProps) {
             </div>
           </div>
         </div>
-        <MatchScore score={similarity_score} />
-      </CardHeader>
-      
-      <CardContent className="pb-2">
-        <div className="bg-muted/30 p-4 rounded-lg my-2 border border-border">
+        <div className="md:pt-1 md:justify-self-end">
+          <MatchScore score={similarity_score} />
+        </div>
+      </div>
+
+      <div className="mt-4 space-y-4">
+        <div className="rounded-md border border-input bg-muted/20 p-4">
           <div className="flex items-start gap-2">
             <Sparkles className="h-5 w-5 text-primary mt-0.5 shrink-0" />
             <div>
-              <h4 className="font-semibold text-sm text-foreground mb-1">
+              <h4 className="text-sm font-semibold text-foreground mb-1">
                 Why this matches
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -65,33 +63,37 @@ export default function MatchCard({ match }: MatchCardProps) {
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-2 leading-relaxed">
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
           {grant.description}
         </p>
 
-        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-4">
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-full justify-between text-xs text-muted-foreground hover:text-foreground">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-between text-xs text-muted-foreground hover:text-foreground"
+            >
               {isOpen ? "Hide AI Insights" : "Show AI Insights"}
               {isOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2 space-y-2 text-sm">
-            <div className="bg-primary/10 p-3 rounded text-primary text-xs border border-primary/20">
+            <div className="rounded border border-primary/20 bg-primary/10 p-3 text-xs text-primary">
               <strong>Tip:</strong> This grant aligns well with your KPIs. Consider highlighting your timeline in the application.
             </div>
           </CollapsibleContent>
         </Collapsible>
-      </CardContent>
+      </div>
 
-      <CardFooter className="pt-2 bg-muted/10 border-t border-border">
-        <Link href={`/grants/${grant.id}`} className="w-full">
-          <Button className="w-full group" variant="default">
+      <div className="mt-4 flex justify-end">
+        <Link href={`/grants/${grant.id}`}>
+          <Button className="group" variant="default">
             View Grant Details
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
         </Link>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

@@ -7,7 +7,7 @@ interface HistoryListProps {
 
 export default function HistoryList({ history }: HistoryListProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="divide-y rounded-lg border border-border bg-background">
       {history.map((idea) => (
         <HistoryCard key={idea.id} idea={idea} />
       ))}
