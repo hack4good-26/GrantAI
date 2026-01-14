@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { GrantMatch } from "@/lib/types";
+import { RecommendedGrant } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -11,12 +11,12 @@ import { useState } from "react";
 import { extractFundingAmount, extractDeadline } from "@/lib/utils";
 
 interface MatchCardProps {
-  match: GrantMatch;
+  match: RecommendedGrant;
 }
 
 export default function MatchCard({ match }: MatchCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { grant, similarity_score, match_reasoning, decision_recommendation } = match;
+  const { grant, match_score, match_reasoning, decision_recommendation } = match;
 
   if (!grant) return null;
 
@@ -53,7 +53,7 @@ export default function MatchCard({ match }: MatchCardProps) {
           </div>
         </div>
         <div className="md:pt-1 md:justify-self-end">
-          <MatchScore score={similarity_score} />
+          <MatchScore score={match_score / 100} />
         </div>
       </div>
 

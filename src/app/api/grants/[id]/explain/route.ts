@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
-import { MOCK_GRANTS } from '@/lib/mock-data';
+import { getSupabase } from '@/lib/supabase';
 
 // POST /api/grants/[id]/explain - Ask question about grant (AI Explainer)
 export async function POST(
@@ -11,8 +11,13 @@ export async function POST(
     const { id } = await params;
     const { question, history } = await request.json();
 
+    console.log(`[Grant Explainer] Starting request for grant ID: ${id}`);
+    console.log(`[Grant Explainer] Question: "${question?.substring(0, 100)}${question?.length > 100 ? '...' : ''}"`);
+    console.log(`[Grant Explainer] History length: ${history?.length || 0}`);
+
     // Validate input
     if (!question || !question.trim()) {
+      console.warn('[Grant Explainer] Empty question received');
       return NextResponse.json(
         { error: 'Question cannot be empty' },
         { status: 400 }
@@ -28,14 +33,23 @@ export async function POST(
       );
     }
 
-    // Fetch grant data (using mock data for now)
-    const grant = MOCK_GRANTS.find(g => g.id === id);
-    if (!grant) {
+    // Fetch grant data from Supabase
+    const supabase = getSupabase();
+    const { data: grant, error: grantError } = await supabase
+      .from('grants_vectors')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (grantError || !grant) {
+      console.error(`[Grant Explainer] Grant not found or error fetching: ${id}`, grantError);
       return NextResponse.json(
         { error: 'Grant not found' },
         { status: 404 }
       );
     }
+
+    console.log(`[Grant Explainer] Successfully fetched grant: ${grant.title}`);
 
     // Initialize Gemini AI
     const ai = new GoogleGenAI({ apiKey });
@@ -73,6 +87,9 @@ Your role is to:
 - Explain key aspects of the grant in clear, accessible language
 - Be encouraging but realistic about application chances
 
+Return your answer with no markdown formatting.
+Keep your responses clear, direct and concise.
+
 Always base your answers on the grant information provided above. If you don't know something specific, say so rather than making assumptions.`;
 
     // Create chat with history and system context
@@ -101,6 +118,8 @@ Always base your answers on the grant information provided above. If you don't k
       history: chatHistory,
     });
 
+    console.log('[Grant Explainer] Sending message to Gemini...');
+
     // Send the user's question
     const response = await chat.sendMessage({
       message: question.trim(),
@@ -108,6 +127,8 @@ Always base your answers on the grant information provided above. If you don't k
 
     // Extract the answer text
     const answer = response.text || 'I apologize, but I could not generate a response. Please try again.';
+    
+    console.log(`[Grant Explainer] Received response from Gemini (${answer.length} chars)`);
 
     return NextResponse.json({
       question: question.trim(),

@@ -24,9 +24,6 @@ export interface Grant {
   // Metadata & Links
   links: string[];  // Array of URLs to document downloads
   metadata?: any;  // JSONB from scraper
-
-  created_at?: string;
-  updated_at?: string;
 }
 
 // Helper type for parsed documents_required field
@@ -36,70 +33,29 @@ export interface ParsedDocuments {
   links: string[];
 }
 
-export interface GrantIntentProfile {
-  id: number;
-  grant_id: number;
-  primary_intent: string;
-  focus_areas: string[];
-  philosophical_stance: {
-    values: string[];
-    priorities: string[];
-    approach: string;
-  };
-  ideal_applicant: {
-    organization_type: string[];
-    size: string;
-    experience_level: string;
-    characteristics: string[];
-  };
-  kpi_nature: {
-    type: string;
-    flexibility: string;
-    expectations: string[];
-  };
-  realistic_project: {
-    scope: string;
-    timeline: string;
-    budget_range: string;
-    examples: string[];
-  };
-  potential_concerns: string[];
-  application_tips: string[];
-  confidence_score: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface ServiceIdea {
-  id: number;
-  title: string;
+// Types for results architecture
+export interface QueryResult {
+  id: string;  // UUID
+  title: string | null;
   description: string;
-  estimated_cost?: number;
-  timeline_months?: number;
-  target_beneficiaries?: string;
-  expected_outcomes?: string;
+  estimated_cost: number | null;
+  timeline_months: number | null;
+  target_beneficiaries: string | null;
+  expected_outcomes: string | null;
+  recommended_grants: RecommendedGrant[];
   created_at: string;
-  updated_at: string;
+  updated_at: string | null;
 }
 
-export interface GrantMatch {
-  id: number;
-  service_idea_id: number;
-  grant_id: string;  // UUID string to match Grant.id
-  similarity_score: number;
-  alignment_score?: number;
-  match_reasoning?: string;
-  why_fits?: string[];
-  concerns?: string[];
-  decision_recommendation?: 'APPLY' | 'WATCH' | 'SKIP';
-  recommended_effort?: 'LOW' | 'MEDIUM' | 'HIGH';
-  win_probability?: number;
-  next_steps?: string[];
-  reframing_needed?: boolean;
-  created_at: string;
-  updated_at: string;
-  // Related data
+export interface RecommendedGrant {
+  grant_id: string;  // UUID
+  similarity_score: number;  // From vector search (0-1)
+  match_score: number;  // From LLM (0-100)
+  match_reasoning: string;
+  why_fits: string[];
+  concerns: string[];
+  decision_recommendation: 'APPLY' | 'WATCH' | 'SKIP';
+  win_probability: number;  // 0.0-1.0
+  // Populated on frontend/API response
   grant?: Grant;
-  service_idea?: ServiceIdea;
-  grant_intent_profile?: GrantIntentProfile;
 }

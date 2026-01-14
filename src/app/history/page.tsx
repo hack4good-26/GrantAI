@@ -1,13 +1,19 @@
-"use client";
-
-import { MOCK_HISTORY } from "@/lib/mock-data";
+import { getSupabase } from '@/lib/supabase';
 import HistoryList from "@/components/history/HistoryList";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import EmptyState from "@/components/shared/EmptyState";
+import type { QueryResult } from '@/lib/types';
 
-export default function HistoryPage() {
+export default async function HistoryPage() {
+  const supabase = getSupabase();
+  const { data: results, error } = await supabase
+    .from('results')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(50);
+
   return (
     <div className="container mx-auto p-6 md:p-8 space-y-8">
       <div className="flex justify-between items-center">
@@ -25,8 +31,8 @@ export default function HistoryPage() {
         </Link>
       </div>
 
-      {MOCK_HISTORY.length > 0 ? (
-        <HistoryList history={MOCK_HISTORY} />
+      {(results && results.length > 0) ? (
+        <HistoryList history={results as QueryResult[]} />
       ) : (
         <EmptyState 
           title="No search history yet" 

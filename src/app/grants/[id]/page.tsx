@@ -1,17 +1,29 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { MOCK_GRANTS, MOCK_CHAT_HISTORY } from "@/lib/mock-data";
+import { notFound } from "next/navigation";
+import { getSupabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import GrantDetail from "@/components/grants/GrantDetail";
 import GrantExplainer from "@/components/grants/GrantExplainer";
+import type { Grant } from "@/lib/types";
 
-export default function GrantDetailPage() {
-  const params = useParams();
-  const id = params.id as string;  // UUID string
-  const grant = MOCK_GRANTS.find(g => g.id === id) || MOCK_GRANTS[0];
+export default async function GrantDetailPage({
+  params
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const supabase = getSupabase();
+  
+  const { data: grant, error } = await supabase
+    .from('grants_vectors')
+    .select('*')
+    .eq('id', id)
+    .single();
+  
+  if (error || !grant) {
+    notFound();
+  }
 
   return (
     <div className="relative min-h-[calc(100vh-theme(spacing.16))]">
@@ -22,10 +34,10 @@ export default function GrantDetailPage() {
             Back to Grants
           </Button>
         </Link>
-        <GrantDetail grant={grant} />
+        <GrantDetail grant={grant as Grant} />
       </div>
 
-      <GrantExplainer grant={grant} initialMessages={MOCK_CHAT_HISTORY} />
+      <GrantExplainer grant={grant as Grant} />
     </div>
   );
 }

@@ -27,13 +27,30 @@ export default function SearchForm() {
 
     setIsLoading(true);
     
-    // Simulate API call and vector search
-    setTimeout(() => {
-      // Mock creating a service idea ID (e.g., 101)
-      const mockId = 101;
-      // Pass the query to the matches page so it can call the API
-      router.push(`/matches?id=${mockId}&query=${encodeURIComponent(query)}`);
-    }, 2000);
+    try {
+      const response = await fetch('/api/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: query,
+          title: query.substring(0, 100),
+          estimated_cost: filters.budget?.[0] || null,
+          timeline_months: filters.duration?.[0] || null,
+        })
+      });
+      
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: 'Failed to process query' }));
+        throw new Error(error.error || 'Failed to create result');
+      }
+      
+      const result = await response.json();
+      router.push(`/results?id=${result.id}`);
+    } catch (error: any) {
+      console.error('Failed to create result:', error);
+      alert('Failed to process your query. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {

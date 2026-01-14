@@ -1,15 +1,15 @@
-import { ServiceIdea } from "@/lib/types";
+import { QueryResult } from "@/lib/types";
 import HistoryCard from "./HistoryCard";
 
 interface HistoryListProps {
-  history: ServiceIdea[];
+  history: QueryResult[];
 }
 
 export default function HistoryList({ history }: HistoryListProps) {
   return (
     <div className="divide-y rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
-      {history.map((idea) => (
-        <HistoryCard key={idea.id} idea={idea} />
+      {history.map((result) => (
+        <HistoryCard key={result.id} result={result} />
       ))}
     </div>
   );

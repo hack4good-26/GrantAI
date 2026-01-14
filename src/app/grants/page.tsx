@@ -1,14 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { MOCK_GRANTS } from "@/lib/mock-data";
+import { useState, useEffect } from "react";
 import GrantFilters from "@/components/grants/GrantFilters";
 import GrantList from "@/components/grants/GrantList";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import type { Grant } from "@/lib/types";
 
 export default function GrantsPage() {
+  const [grants, setGrants] = useState<Grant[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredGrants = MOCK_GRANTS.filter(grant => {
+  useEffect(() => {
+    fetch('/api/grants')
+      .then(res => res.json())
+      .then(data => {
+        // Handle error responses from API
+        if (Array.isArray(data)) {
+          setGrants(data);
+        } else {
+          console.error('API returned non-array response:', data);
+          setGrants([]);
+        }
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching grants:', error);
+        setGrants([]);
+        setLoading(false);
+      });
+  }, []);
+
+  const filteredGrants = grants.filter(grant => {
     const search = searchTerm.toLowerCase();
     return (
       (grant.title?.toLowerCase().includes(search)) ||
@@ -20,6 +43,10 @@ export default function GrantsPage() {
       (grant.application_status?.toLowerCase().includes(search))
     );
   });
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="container mx-auto p-6 md:p-8 space-y-8">
