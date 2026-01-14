@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronDown, ChevronUp, Sparkles, ArrowRight, Calendar, DollarSign } from "lucide-react";
 import MatchScore from "./MatchScore";
 import { useState } from "react";
+import { extractFundingAmount, extractDeadline } from "@/lib/utils";
 
 interface MatchCardProps {
   match: GrantMatch;
@@ -19,27 +20,35 @@ export default function MatchCard({ match }: MatchCardProps) {
 
   if (!grant) return null;
 
+  const fundingText = extractFundingAmount(grant);
+  const deadlineText = extractDeadline(grant);
+
   return (
     <div className="p-6 transition-colors hover:bg-muted/30">
       <div className="flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">{grant.source}</Badge>
+            {grant.application_status && (
+              <Badge variant="outline">{grant.application_status}</Badge>
+            )}
             {decision_recommendation === "APPLY" && (
               <Badge className="bg-primary text-primary-foreground hover:bg-primary/90">Recommended</Badge>
             )}
           </div>
-          <h3 className="text-xl font-semibold leading-tight text-foreground">{grant.title}</h3>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <h3 className="text-xl font-semibold leading-tight text-foreground">
+            {grant.title || "Untitled Grant"}
+          </h3>
+          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+            {grant.description || "No description available"}
+          </p>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mt-2">
             <div className="flex items-center gap-1">
               <DollarSign className="h-3.5 w-3.5" />
-              <span>
-                {grant.funding_min?.toLocaleString()} - {grant.funding_max?.toLocaleString()}
-              </span>
+              <span className="line-clamp-1">{fundingText}</span>
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" />
-              <span>Due: {new Date(grant.deadline || "").toLocaleDateString()}</span>
+              <span className="line-clamp-1">{deadlineText}</span>
             </div>
           </div>
         </div>
@@ -64,10 +73,6 @@ export default function MatchCard({ match }: MatchCardProps) {
             </div>
           </div>
         </div>
-
-        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed px-1">
-          {grant.description}
-        </p>
 
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <CollapsibleTrigger asChild>

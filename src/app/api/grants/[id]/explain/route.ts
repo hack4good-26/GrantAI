@@ -9,7 +9,6 @@ export async function POST(
 ) {
   try {
     const { id } = await params;
-    const grantId = parseInt(id, 10);
     const { question, history } = await request.json();
 
     // Validate input
@@ -30,7 +29,7 @@ export async function POST(
     }
 
     // Fetch grant data (using mock data for now)
-    const grant = MOCK_GRANTS.find(g => g.id === grantId);
+    const grant = MOCK_GRANTS.find(g => g.id === id);
     if (!grant) {
       return NextResponse.json(
         { error: 'Grant not found' },
@@ -49,16 +48,24 @@ export async function POST(
     }));
 
     // Create system prompt with grant context
-    const systemPrompt = `You are an AI grant advisor helping non-profit organizations understand and apply for grants. 
+    const systemPrompt = `You are an AI grant advisor helping non-profit organizations understand and apply for grants.
 
 You are currently answering questions about this specific grant:
 
-**Grant Title:** ${grant.title}
-**Source:** ${grant.source}
-**Description:** ${grant.description}
-${grant.funding_min && grant.funding_max ? `**Funding Range:** $${grant.funding_min.toLocaleString()} - $${grant.funding_max.toLocaleString()}` : ''}
-${grant.deadline ? `**Deadline:** ${grant.deadline}` : ''}
-${grant.duration_months ? `**Duration:** ${grant.duration_months} months` : ''}
+**Grant Title:** ${grant.title || "Grant Information"}
+**Description:** ${grant.description || "No description available"}
+
+${grant.about_grant ? `**About this Grant:** ${grant.about_grant}` : ''}
+
+${grant.who_can_apply ? `**Eligibility:** ${grant.who_can_apply}` : ''}
+
+${grant.when_can_apply ? `**Application Timeline:** ${grant.when_can_apply}` : ''}
+
+${grant.funding_info ? `**Funding Information:** ${grant.funding_info}` : ''}
+
+${grant.how_to_apply ? `**How to Apply:** ${grant.how_to_apply}` : ''}
+
+${grant.application_status ? `**Status:** ${grant.application_status}` : ''}
 
 Your role is to:
 - Answer questions about eligibility criteria, application requirements, and funding scope

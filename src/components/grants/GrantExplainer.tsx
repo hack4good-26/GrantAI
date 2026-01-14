@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as Dialog from "@radix-ui/react-dialog";
 import { explainerApi } from "@/lib/api";
-import { 
-  Send, 
-  Bot, 
-  User, 
+import {
+  Send,
+  Bot,
+  User,
   Sparkles,
   X
 } from "lucide-react";
@@ -107,7 +107,7 @@ export default function GrantExplainer({ grant, initialMessages }: GrantExplaine
                     AI Grant Advisor
                   </Dialog.Title>
                   <p className="text-xs text-muted-foreground truncate">
-                    Ask about {grant.title}
+                    Ask about {grant.title || "this grant"}
                   </p>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function GrantExplainer({ grant, initialMessages }: GrantExplaine
                     </div>
                     <div className="bg-card text-card-foreground p-3 rounded-lg rounded-tl-none shadow-sm text-sm border border-border max-w-[85%] min-w-0">
                       <p className="whitespace-pre-wrap break-words">
-                        Hello! I'm your AI assistant for the <strong>{grant.title}</strong>. Ask me anything about eligibility, application tips, or how to frame your proposal.
+                        Hello! I'm your AI assistant for the <strong>{grant.title || "this grant"}</strong>. Ask me anything about eligibility, application tips, or how to frame your proposal.
                       </p>
                     </div>
                   </div>

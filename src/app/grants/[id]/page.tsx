@@ -10,7 +10,7 @@ import GrantExplainer from "@/components/grants/GrantExplainer";
 
 export default function GrantDetailPage() {
   const params = useParams();
-  const id = Number(params.id);
+  const id = params.id as string;  // UUID string
   const grant = MOCK_GRANTS.find(g => g.id === id) || MOCK_GRANTS[0];
 
   return (

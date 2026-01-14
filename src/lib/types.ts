@@ -1,19 +1,39 @@
 // TypeScript interfaces for Grant Intent Advisor
 
 export interface Grant {
-  id: number;
-  title: string;
-  source: string;
-  description: string;
-  funding_min?: number;
-  funding_max?: number;
-  deadline?: string;
-  duration_months?: number;
-  raw_content: string;
-  url?: string;
-  status: 'ACTIVE' | 'EXPIRED' | 'UPCOMING';
-  created_at: string;
-  updated_at: string;
+  id: string;  // UUID string
+  title: string;  // Exact grant title with proper casing
+  description: string;  // Short 1-2 sentence summary
+  embedding?: number[];  // Optional: Vector embedding (not typically used in frontend)
+  grant_url: string | null;
+
+  // Content fields
+  about_grant: string | null;
+  full_description: string | null;
+
+  // Eligibility & Funding
+  who_can_apply: string | null;
+  funding_info: string | null;
+  application_status: string | null;
+
+  // Application Process
+  how_to_apply: string | null;
+  when_can_apply: string | null;
+  documents_required: string | null;  // JSON string with {text, items, links}
+
+  // Metadata & Links
+  links: string[];  // Array of URLs to document downloads
+  metadata?: any;  // JSONB from scraper
+
+  created_at?: string;
+  updated_at?: string;
+}
+
+// Helper type for parsed documents_required field
+export interface ParsedDocuments {
+  text: string;
+  items: string[];
+  links: string[];
 }
 
 export interface GrantIntentProfile {
@@ -65,7 +85,7 @@ export interface ServiceIdea {
 export interface GrantMatch {
   id: number;
   service_idea_id: number;
-  grant_id: number;
+  grant_id: string;  // UUID string to match Grant.id
   similarity_score: number;
   alignment_score?: number;
   match_reasoning?: string;

@@ -50,7 +50,7 @@ export const grantsApi = {
     return response.data;
   },
 
-  getById: async (id: number): Promise<Grant> => {
+  getById: async (id: string): Promise<Grant> => {  // UUID string
     const response = await apiClient.get<Grant>(`/api/grants/${id}`);
     return response.data;
   },
@@ -67,7 +67,7 @@ export const serviceIdeasApi = {
     return response.data;
   },
 
-  getMatches: async (id: number): Promise<GrantMatch[]> => {
+  getMatches: async (id: number | string): Promise<GrantMatch[]> => {  // Support both for backwards compatibility
     const response = await apiClient.get<GrantMatch[]>(`/api/service-ideas/${id}/matches`);
     return response.data;
   },
@@ -75,7 +75,7 @@ export const serviceIdeasApi = {
 
 export const explainerApi = {
   explain: async (
-    grantId: number,
+    grantId: string,  // UUID string
     question: string,
     history: Array<{ role: string; content: string }>
   ) => {
