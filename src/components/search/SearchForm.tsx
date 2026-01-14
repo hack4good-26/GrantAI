@@ -31,7 +31,8 @@ export default function SearchForm() {
     setTimeout(() => {
       // Mock creating a service idea ID (e.g., 101)
       const mockId = 101;
-      router.push(`/matches?id=${mockId}`);
+      // Pass the query to the matches page so it can call the API
+      router.push(`/matches?id=${mockId}&query=${encodeURIComponent(query)}`);
     }, 2000);
   };
 

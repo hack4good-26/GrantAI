@@ -1,20 +1,26 @@
 import { MOCK_MATCHES } from "@/lib/mock-data";
 import MatchList from "@/components/matches/MatchList";
+import ApiCaller from "@/components/matches/ApiCaller";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default function MatchesPage({
+export default async function MatchesPage({
   searchParams,
 }: {
-  searchParams: { id?: string };
+  searchParams: Promise<{ id?: string; query?: string }>;
 }) {
-  const serviceIdeaId = searchParams.id;
-  // In a real app, we would fetch the service idea and its matches based on the ID.
-  // For now, we use mock data.
+  const params = await searchParams;
+  const serviceIdeaId = params.id;
+  const query = params.query || "Mental health workshops for teenagers in schools...";
   
   return (
     <div className="container mx-auto p-6 md:p-8 space-y-8">
+      {/* Call API in background to see console logs */}
+      {serviceIdeaId && query && (
+        <ApiCaller serviceIdeaId={serviceIdeaId} query={query} />
+      )}
+      
       <div>
         <Link href="/dashboard">
           <Button variant="ghost" size="sm" className="mb-4">
@@ -33,7 +39,7 @@ export default function MatchesPage({
       <div className="bg-muted/50 p-4 rounded-lg border">
         <h3 className="text-sm font-medium text-muted-foreground mb-1">Your Query:</h3>
         <p className="text-lg italic text-foreground">
-          "Mental health workshops for teenagers in schools..."
+          "{query}"
         </p>
       </div>
 
