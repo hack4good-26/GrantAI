@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
   console.log('=== POST /api/results started ===');
   try {
     const body = await request.json();
-    const { description, title, estimated_cost, timeline_months } = body;
-    console.log('Request body:', { description: description?.substring(0, 100), title, estimated_cost, timeline_months });
+    const { description, title, estimated_cost, timeline_months, kpis } = body;
+    console.log('Request body:', { description: description?.substring(0, 100), title, estimated_cost, timeline_months, kpis });
 
     if (!description || !description.trim()) {
       return NextResponse.json({ error: 'Description is required' }, { status: 400 });
@@ -92,6 +92,7 @@ ${description}
 ${title ? `Title: ${title}` : ''}
 ${estimated_cost ? `Estimated Cost: $${estimated_cost.toLocaleString()}` : ''}
 ${timeline_months ? `Timeline: ${timeline_months} months` : ''}
+${kpis ? `Key KPIs to track: ${kpis}` : ''}
 
 AVAILABLE GRANTS:
 ${grantsList}
@@ -158,6 +159,7 @@ ${description}
 ${title ? `Title: ${title}` : ''}
 ${estimated_cost ? `Estimated Cost: $${estimated_cost.toLocaleString()}` : ''}
 ${timeline_months ? `Timeline: ${timeline_months} months` : ''}
+${kpis ? `Key KPIs to track: ${kpis}` : ''}
 
 GRANT INFORMATION:
 Title: ${grant.title}

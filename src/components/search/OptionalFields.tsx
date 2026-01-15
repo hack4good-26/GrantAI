@@ -27,14 +27,16 @@ export default function OptionalFields({ filters, onChange }: OptionalFieldsProp
             <div className="flex justify-between">
               <Label>Estimated Budget Range</Label>
               <span className="text-sm text-muted-foreground">
-                ${filters.budget[0].toLocaleString()} - ${filters.budget[1].toLocaleString()}
+                {filters.budget[0] === 0 && filters.budget[1] === 0
+                  ? "Not set"
+                  : `$${filters.budget[0].toLocaleString()} - $${filters.budget[1].toLocaleString()}`}
               </span>
             </div>
             <Slider
               defaultValue={[10000, 100000]}
               max={500000}
               step={5000}
-              value={filters.budget}
+              value={filters.budget[0] === 0 && filters.budget[1] === 0 ? [10000, 100000] : filters.budget}
               onValueChange={(val) => onChange("budget", val)}
               className="py-4"
             />
@@ -44,13 +46,15 @@ export default function OptionalFields({ filters, onChange }: OptionalFieldsProp
             <div className="space-y-2">
               <div className="flex justify-between">
                 <Label>Duration (Months)</Label>
-                <span className="text-sm text-muted-foreground">{filters.duration[0]} months</span>
+                <span className="text-sm text-muted-foreground">
+                  {filters.duration[0] === 0 ? "Not set" : `${filters.duration[0]} months`}
+                </span>
               </div>
               <Slider
                 defaultValue={[12]}
                 max={60}
                 step={3}
-                value={filters.duration}
+                value={filters.duration[0] === 0 ? [12] : filters.duration}
                 onValueChange={(val) => onChange("duration", val)}
                 className="py-4"
               />
@@ -61,10 +65,11 @@ export default function OptionalFields({ filters, onChange }: OptionalFieldsProp
               <Input
                 id="kpis"
                 type="number"
-                min={1}
+                min={0}
                 max={10}
-                value={filters.kpis}
-                onChange={(e) => onChange("kpis", parseInt(e.target.value) || 1)}
+                placeholder="Not set"
+                value={filters.kpis || ""}
+                onChange={(e) => onChange("kpis", parseInt(e.target.value) || 0)}
               />
             </div>
           </div>

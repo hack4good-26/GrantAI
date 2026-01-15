@@ -12,9 +12,9 @@ export default function SearchForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState({
-    budget: [10000, 100000],
-    duration: [12],
-    kpis: 3
+    budget: [0, 0],
+    duration: [0],
+    kpis: 0
   });
 
   const handleFilterChange = (key: string, value: any) => {
@@ -34,8 +34,9 @@ export default function SearchForm() {
         body: JSON.stringify({
           description: query,
           title: query.substring(0, 100),
-          estimated_cost: filters.budget?.[0] || null,
-          timeline_months: filters.duration?.[0] || null,
+          estimated_cost: filters.budget?.[0] > 0 ? filters.budget[0] : null,
+          timeline_months: filters.duration?.[0] > 0 ? filters.duration[0] : null,
+          kpis: filters.kpis > 0 ? filters.kpis : null,
         })
       });
       
