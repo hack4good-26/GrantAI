@@ -9,10 +9,15 @@ import type { QueryResult, RecommendedGrant } from '@/lib/types';
 export default async function ResultsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ id?: string }>;
+  searchParams: Promise<{ id?: string; from?: string }>;
 }) {
   const params = await searchParams;
   const resultId = params.id;
+  const returnTo = params.from;
+  const backHref = typeof returnTo === 'string' && returnTo.startsWith('/')
+    ? returnTo
+    : '/dashboard';
+  const backLabel = backHref === '/history' ? 'Back to History' : 'Back to Dashboard';
   
   if (!resultId) {
     redirect('/dashboard');
@@ -54,10 +59,10 @@ export default async function ResultsPage({
     return (
       <div className="container mx-auto px-4 py-6 md:px-8 md:py-8 space-y-6 md:space-y-8">
         <div>
-          <Link href="/dashboard">
+          <Link href={backHref}>
             <Button variant="ghost" size="sm" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Dashboard
+              {backLabel}
             </Button>
           </Link>
           <div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { RecommendedGrant } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,8 @@ interface MatchCardProps {
 }
 
 export default function MatchCard({ match }: MatchCardProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const {
     grant,
     match_score,
@@ -24,6 +27,8 @@ export default function MatchCard({ match }: MatchCardProps) {
 
   if (!grant) return null;
 
+  const search = searchParams.toString();
+  const returnTo = search ? `${pathname}?${search}` : pathname;
   const fundingText = extractFundingAmount(grant);
   const deadlineText = extractDeadline(grant);
 
@@ -114,7 +119,12 @@ export default function MatchCard({ match }: MatchCardProps) {
       </div>
 
       <div className="mt-6 flex justify-end">
-        <Link href={`/grants/${grant.id}`}>
+        <Link
+          href={{
+            pathname: `/grants/${grant.id}`,
+            query: { from: returnTo },
+          }}
+        >
           <Button className="group" variant="default">
             View Grant Details
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

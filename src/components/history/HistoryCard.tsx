@@ -48,7 +48,10 @@ export default function HistoryCard({ result }: HistoryCardProps) {
             )}
           </div>
           <Link
-            href={`/results?id=${result.id}`}
+            href={{
+              pathname: "/results",
+              query: { id: result.id, from: "/history" },
+            }}
             className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             View Matches ({result.recommended_grants.length})
