@@ -69,13 +69,16 @@ export default function SearchForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-4 md:space-y-6">
-      <div className="text-center space-y-2 mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+    <form onSubmit={handleSubmit} className="w-full space-y-5 md:space-y-6">
+      <div className="space-y-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+          Grant Discovery
+        </p>
+        <h2 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight text-foreground">
           What service grants are you looking for?
-        </h1>
-        <p className="text-muted-foreground text-sm md:text-base">
-          Describe your project idea and let AI find the perfect funding match.
+        </h2>
+        <p className="text-sm md:text-base text-muted-foreground">
+          Describe your project idea and let AI surface the best funding matches.
         </p>
       </div>
       <QueryInput
@@ -86,17 +89,22 @@ export default function SearchForm() {
         filtersOpen={filtersOpen}
       />
       {!filtersOpen ? (
-        <div className="flex flex-col gap-2">
-          {SUGGESTED_QUERIES.map((suggestion, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => setQuery(suggestion)}
-              className="text-left text-sm px-4 py-2.5 rounded-full w-fit border border-border bg-background text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-accent/50 transition-colors animate-pulse-purple"
-            >
-              {suggestion}
-            </button>
-          ))}
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Suggested starting points
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {SUGGESTED_QUERIES.map((suggestion, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setQuery(suggestion)}
+                className="text-left text-sm px-4 py-2 rounded-full border border-border/70 bg-card/70 text-foreground/75 hover:text-foreground hover:border-primary/60 hover:bg-accent/80 transition-colors animate-pulse-accent"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
         </div>
       ) : null}
       {filtersOpen ? <OptionalFields filters={filters} onChange={handleFilterChange} /> : null}

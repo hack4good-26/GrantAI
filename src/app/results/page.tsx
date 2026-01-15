@@ -61,7 +61,7 @@ export default async function ResultsPage({
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Grant Matches</h1>
+            <h1 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight">Grant Matches</h1>
             <p className="text-sm md:text-base text-muted-foreground">
               We found {recommendedGrants.length} grants matching your service idea.
             </p>
@@ -76,7 +76,7 @@ export default async function ResultsPage({
         </div>
 
         <div className="space-y-6">
-          <h2 className="text-lg md:text-xl font-semibold">Top Recommendations</h2>
+          <h2 className="text-lg md:text-xl font-serif font-semibold">Top Recommendations</h2>
           {recommendedGrants.length > 0 ? (
             <MatchList matches={recommendedGrants} />
           ) : (

@@ -16,8 +16,8 @@ interface OptionalFieldsProps {
 
 export default function OptionalFields({ filters, onChange }: OptionalFieldsProps) {
   return (
-    <div className="w-full rounded-md border border-input bg-transparent shadow-sm">
-      <div className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-muted-foreground">
+    <div className="w-full rounded-2xl border border-border/70 bg-card/80 shadow-sm backdrop-blur-sm">
+      <div className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-foreground/70">
         <Settings2 className="h-4 w-4" />
         Advanced Filters (Optional)
       </div>

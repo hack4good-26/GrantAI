@@ -46,12 +46,12 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
       <div>
         <div className="flex items-center gap-2 mb-2">
           {grant.application_status && (
-            <Badge className="bg-green-100 text-green-800 border-none">
+            <Badge className="bg-emerald-100 text-emerald-900 border-none dark:bg-emerald-500/20 dark:text-emerald-100">
               {grant.application_status}
             </Badge>
           )}
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
           {title}
         </h1>
         {grant.about_grant && (
@@ -65,8 +65,8 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
       <div className="space-y-6">
         {grant.about_grant && (
           <section>
-            <h3 className="text-2xl font-bold mb-3">About This Grant</h3>
-            <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+            <h3 className="text-2xl font-serif font-semibold mb-3">About This Grant</h3>
+            <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
               {grant.about_grant}
             </div>
           </section>
@@ -76,8 +76,8 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <>
             <Separator />
             <section>
-              <h3 className="text-2xl font-bold mb-3">Who Can Apply</h3>
-              <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+              <h3 className="text-2xl font-serif font-semibold mb-3">Who Can Apply</h3>
+              <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                 {grant.who_can_apply}
               </div>
             </section>
@@ -88,8 +88,8 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <>
             <Separator />
             <section>
-              <h3 className="text-2xl font-bold mb-3">When to Apply</h3>
-              <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+              <h3 className="text-2xl font-serif font-semibold mb-3">When to Apply</h3>
+              <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                 {grant.when_can_apply}
               </div>
             </section>
@@ -100,8 +100,8 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <>
             <Separator />
             <section>
-              <h3 className="text-2xl font-bold mb-3">Funding Information</h3>
-              <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+              <h3 className="text-2xl font-serif font-semibold mb-3">Funding Information</h3>
+              <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                 {grant.funding_info}
               </div>
             </section>
@@ -112,8 +112,8 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <>
             <Separator />
             <section>
-              <h3 className="text-2xl font-bold mb-3">How to Apply</h3>
-              <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+              <h3 className="text-2xl font-serif font-semibold mb-3">How to Apply</h3>
+              <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                 {grant.how_to_apply}
               </div>
             </section>
@@ -124,25 +124,25 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <>
             <Separator />
             <section>
-              <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">
+              <h3 className="text-2xl font-serif font-semibold mb-3 flex items-center gap-2">
                 <FileText className="h-6 w-6" />
                 Documents Required
               </h3>
               {parsedDocuments && parsedDocuments.items && parsedDocuments.items.length > 0 ? (
                 <ul className="space-y-2">
                   {parsedDocuments.items.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                    <li key={index} className="flex items-start gap-2 text-muted-foreground">
                       <span className="text-primary mt-1">•</span>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               ) : parsedDocuments && parsedDocuments.text ? (
-                <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+                <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                   {parsedDocuments.text}
                 </div>
               ) : documentsText ? (
-                <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+                <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                   {documentsText}
                 </div>
               ) : null}
@@ -154,7 +154,7 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <>
             <Separator />
             <section>
-              <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">
+              <h3 className="text-2xl font-serif font-semibold mb-3 flex items-center gap-2">
                 <Download className="h-6 w-6" />
                 Download Forms & Templates
               </h3>
@@ -167,11 +167,11 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 p-3 border rounded-lg hover:bg-muted/60 transition-colors"
                     >
                       <FileText className="h-5 w-5 text-primary flex-shrink-0" />
                       <span className="text-sm flex-1 truncate">{decodeURIComponent(filename)}</span>
-                      <ExternalLink className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <ExternalLink className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     </a>
                   );
                 })}

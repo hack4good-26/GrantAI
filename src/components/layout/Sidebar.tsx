@@ -12,8 +12,7 @@ import {
   Library, 
   Menu, 
   ChevronLeft, 
-  ChevronRight,
-  Search
+  ChevronRight
 } from "lucide-react";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -44,10 +43,10 @@ export default function Sidebar({ className }: SidebarProps) {
   ];
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border overflow-hidden">
-      <div className={cn("flex items-center h-16 px-4 border-b border-sidebar-border", isCollapsed ? "justify-center" : "justify-between")}>
+    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border/80 overflow-hidden">
+      <div className={cn("flex items-center h-16 px-4 border-b border-sidebar-border/80", isCollapsed ? "justify-center" : "justify-between")}>
         {!isCollapsed && (
-          <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <span className="text-xl font-serif font-semibold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             GrantAI
           </span>
         )}
@@ -68,8 +67,10 @@ export default function Sidebar({ className }: SidebarProps) {
               key={route.href}
               href={route.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-sidebar-accent-foreground hover:bg-sidebar-accent",
-                route.active ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground/70",
+                "flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors",
+                route.active
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+                  : "text-sidebar-foreground/70 hover:text-sidebar-accent-foreground hover:bg-sidebar-accent/80",
                 isCollapsed && "justify-center px-2"
               )}
               title={isCollapsed ? route.label : undefined}

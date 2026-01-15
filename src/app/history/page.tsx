@@ -19,7 +19,7 @@ export default async function HistoryPage() {
     <div className="container mx-auto px-4 py-6 md:px-8 md:py-8 space-y-6 md:space-y-8">
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Search History</h1>
+          <h1 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight">Search History</h1>
           <p className="text-sm md:text-base text-muted-foreground">
             View and revisit your past service ideas and grant matches.
           </p>
