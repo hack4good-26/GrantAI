@@ -6,6 +6,12 @@ import QueryInput from "./QueryInput";
 import OptionalFields from "./OptionalFields";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
+const SUGGESTED_QUERIES = [
+  "I want to increase capacity for elderly care services in the Bedok area by 20% over the next 2 years",
+  "Launch a community mental health support program for youth aged 12-18 in underserved neighborhoods",
+  "Develop a digital literacy training program for low-income families to improve employment opportunities"
+];
+
 export default function SearchForm() {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -79,6 +85,20 @@ export default function SearchForm() {
         onToggleFilters={() => setFiltersOpen((prev) => !prev)}
         filtersOpen={filtersOpen}
       />
+      {!filtersOpen ? (
+        <div className="flex flex-col gap-2">
+          {SUGGESTED_QUERIES.map((suggestion, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setQuery(suggestion)}
+              className="text-left text-sm px-4 py-2.5 rounded-full w-fit border border-border bg-background text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-accent/50 transition-colors animate-pulse-purple"
+            >
+              {suggestion}
+            </button>
+          ))}
+        </div>
+      ) : null}
       {filtersOpen ? <OptionalFields filters={filters} onChange={handleFilterChange} /> : null}
     </form>
   );
