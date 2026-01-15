@@ -29,7 +29,7 @@ export default function QueryInput({
       <div className="relative">
         <Textarea
           id="query"
-          placeholder="Describe your service idea... (e.g., I want to increase capacity for elderly care services in the Bedok area by 20% over the next 2 years)"
+          placeholder="Describe your service idea..."
           className="min-h-[160px] md:min-h-[200px] text-base md:text-lg p-3 pr-14 pb-14 md:p-4 md:pr-12 md:pb-12 resize-none shadow-sm focus-visible:ring-blue-500"
           value={value}
           onChange={(e) => onChange(e.target.value)}
