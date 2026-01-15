@@ -45,7 +45,11 @@ export default function GrantsPage() {
   });
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in">
+        <LoadingSpinner text="Loading grants..." />
+      </div>
+    );
   }
 
   return (

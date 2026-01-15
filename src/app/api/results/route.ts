@@ -272,3 +272,39 @@ Analyze the match and respond with ONLY a valid JSON object (no markdown, no cod
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  console.log('=== DELETE /api/results started ===');
+  try {
+    const supabase = getSupabase();
+
+    // Delete all results from the results table
+    // Using .neq() with an impossible ID to delete all records
+    const { error } = await supabase
+      .from('results')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000');
+
+    if (error) {
+      console.error('❌ Failed to delete results:', error);
+      throw error;
+    }
+
+    console.log(`✅ Deleted all results from database`);
+    console.log('=== DELETE /api/results completed successfully ===');
+
+    return NextResponse.json({ 
+      success: true, 
+      message: 'All search history cleared' 
+    });
+
+  } catch (error: any) {
+    console.error('❌❌❌ Error in DELETE /api/results:', error);
+    console.error('Error stack:', error.stack);
+    console.log('=== DELETE /api/results failed ===');
+    return NextResponse.json(
+      { error: error.message || 'Failed to clear history' },
+      { status: 500 }
+    );
+  }
+}

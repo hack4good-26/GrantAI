@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import EmptyState from "@/components/shared/EmptyState";
+import ClearHistoryButton from "@/components/history/ClearHistoryButton";
 import type { QueryResult } from '@/lib/types';
 
 export default async function HistoryPage() {
@@ -23,12 +24,15 @@ export default async function HistoryPage() {
             View and revisit your past service ideas and grant matches.
           </p>
         </div>
-        <Link href="/dashboard">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            New Search
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          {results && results.length > 0 && <ClearHistoryButton />}
+          <Link href="/dashboard">
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              New Search
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {(results && results.length > 0) ? (

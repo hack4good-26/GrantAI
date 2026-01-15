@@ -22,11 +22,21 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
 
   // Parse documents_required JSON
   let parsedDocuments: ParsedDocuments | null = null;
+  let documentsText: string | null = null;
+
   if (grant.documents_required) {
     try {
-      parsedDocuments = JSON.parse(grant.documents_required);
+      const parsed = JSON.parse(grant.documents_required);
+      // Validate it has the expected structure
+      if (parsed && typeof parsed === 'object' && (parsed.items || parsed.text)) {
+        parsedDocuments = parsed;
+      } else {
+        // If JSON but wrong structure, treat as plain text
+        documentsText = grant.documents_required;
+      }
     } catch (e) {
-      console.error("Failed to parse documents_required:", e);
+      // Not valid JSON, treat as plain text
+      documentsText = grant.documents_required;
     }
   }
 
@@ -48,43 +58,6 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           <p className="text-xl text-muted-foreground leading-relaxed whitespace-pre-line">
             {grant.about_grant}
           </p>
-        )}
-      </div>
-
-      {/* Key Info Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {grant.funding_info && (
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <DollarSign className="h-8 w-8 text-primary mb-2" />
-              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Funding</div>
-              <div className="text-sm mt-2 line-clamp-3">
-                {grant.funding_info.split('\n')[0]}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        {grant.when_can_apply && (
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <Calendar className="h-8 w-8 text-primary mb-2" />
-              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Application Timeline</div>
-              <div className="text-sm mt-2 line-clamp-3">
-                {grant.when_can_apply.split('\n')[0]}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        {grant.who_can_apply && (
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <Users className="h-8 w-8 text-primary mb-2" />
-              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Eligibility</div>
-              <div className="text-sm mt-2 line-clamp-3">
-                {grant.who_can_apply.split('\n')[0]}
-              </div>
-            </CardContent>
-          </Card>
         )}
       </div>
 
@@ -147,7 +120,7 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
           </>
         )}
 
-        {parsedDocuments && parsedDocuments.items && parsedDocuments.items.length > 0 && (
+        {(parsedDocuments || documentsText) && (
           <>
             <Separator />
             <section>
@@ -155,14 +128,24 @@ export default function GrantDetail({ grant }: GrantDetailProps) {
                 <FileText className="h-6 w-6" />
                 Documents Required
               </h3>
-              <ul className="space-y-2">
-                {parsedDocuments.items.map((item, index) => (
-                  <li key={index} className="flex items-start gap-2 text-gray-700">
-                    <span className="text-primary mt-1">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              {parsedDocuments && parsedDocuments.items && parsedDocuments.items.length > 0 ? (
+                <ul className="space-y-2">
+                  {parsedDocuments.items.map((item, index) => (
+                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                      <span className="text-primary mt-1">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : parsedDocuments && parsedDocuments.text ? (
+                <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+                  {parsedDocuments.text}
+                </div>
+              ) : documentsText ? (
+                <div className="prose max-w-none text-gray-700 whitespace-pre-line">
+                  {documentsText}
+                </div>
+              ) : null}
             </section>
           </>
         )}
