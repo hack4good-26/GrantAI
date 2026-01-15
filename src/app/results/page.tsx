@@ -52,7 +52,7 @@ export default async function ResultsPage({
     }));
 
     return (
-      <div className="container mx-auto p-6 md:p-8 space-y-8">
+      <div className="container mx-auto px-4 py-6 md:px-8 md:py-8 space-y-6 md:space-y-8">
         <div>
           <Link href="/dashboard">
             <Button variant="ghost" size="sm" className="mb-4">
@@ -61,8 +61,8 @@ export default async function ResultsPage({
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Grant Matches</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Grant Matches</h1>
+            <p className="text-sm md:text-base text-muted-foreground">
               We found {recommendedGrants.length} grants matching your service idea.
             </p>
           </div>
@@ -70,13 +70,13 @@ export default async function ResultsPage({
 
         <div className="bg-muted/50 p-4 rounded-lg border">
           <h3 className="text-sm font-medium text-muted-foreground mb-1">Your Query:</h3>
-          <p className="text-lg italic text-foreground">
+          <p className="text-base md:text-lg italic text-foreground">
             "{result.description}"
           </p>
         </div>
 
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Top Recommendations</h2>
+          <h2 className="text-lg md:text-xl font-semibold">Top Recommendations</h2>
           {recommendedGrants.length > 0 ? (
             <MatchList matches={recommendedGrants} />
           ) : (

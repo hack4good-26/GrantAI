@@ -30,7 +30,7 @@ export default function QueryInput({
         <Textarea
           id="query"
           placeholder="Describe your service idea... (e.g., I want to increase capacity for elderly care services in the Bedok area by 20% over the next 2 years)"
-          className="min-h-[200px] text-lg p-4 pr-12 pb-12 resize-none shadow-sm focus-visible:ring-blue-500"
+          className="min-h-[160px] md:min-h-[200px] text-base md:text-lg p-3 pr-14 pb-14 md:p-4 md:pr-12 md:pb-12 resize-none shadow-sm focus-visible:ring-blue-500"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
@@ -38,7 +38,7 @@ export default function QueryInput({
         />
         <button
           type="button"
-          className="absolute bottom-3 left-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          className="absolute bottom-2 left-2 md:bottom-3 md:left-3 inline-flex h-11 w-11 md:h-9 md:w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
           onClick={onToggleFilters}
           aria-label="Toggle advanced filters"
           aria-pressed={filtersOpen}
@@ -48,7 +48,7 @@ export default function QueryInput({
         </button>
         <button
           type="submit"
-          className="absolute bottom-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          className="absolute bottom-2 right-2 md:bottom-3 md:right-3 inline-flex h-11 w-11 md:h-9 md:w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
           disabled={!canSubmit || disabled}
           aria-label="Submit query"
         >

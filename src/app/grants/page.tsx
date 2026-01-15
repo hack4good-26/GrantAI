@@ -53,7 +53,7 @@ export default function GrantsPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 md:p-8 space-y-8">
+    <div className="container mx-auto px-4 py-6 md:px-8 md:py-8 space-y-6 md:space-y-8">
       <GrantFilters searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       <GrantList grants={filteredGrants} />
     </div>

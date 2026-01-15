@@ -24,7 +24,7 @@ export default function GrantCard({ grant }: GrantCardProps) {
             </Badge>
           )}
         </div>
-        <CardTitle className="leading-tight mt-2 text-xl">
+        <CardTitle className="leading-tight mt-2 text-lg md:text-xl">
           {grant.title || "Untitled Grant"}
         </CardTitle>
         <CardDescription className="text-sm text-muted-foreground line-clamp-2 pt-1">

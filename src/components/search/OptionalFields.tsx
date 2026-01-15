@@ -21,7 +21,7 @@ export default function OptionalFields({ filters, onChange }: OptionalFieldsProp
         <Settings2 className="h-4 w-4" />
         Advanced Filters (Optional)
       </div>
-      <div className="px-6 pb-6 pt-2 space-y-6 animate-in slide-in-from-top-2">
+      <div className="px-4 md:px-6 pb-4 md:pb-6 pt-2 space-y-4 md:space-y-6 animate-in slide-in-from-top-2">
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="flex justify-between">
@@ -40,7 +40,7 @@ export default function OptionalFields({ filters, onChange }: OptionalFieldsProp
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="space-y-2">
               <div className="flex justify-between">
                 <Label>Duration (Months)</Label>

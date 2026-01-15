@@ -24,7 +24,7 @@ export default function MatchCard({ match }: MatchCardProps) {
   const deadlineText = extractDeadline(grant);
 
   return (
-    <div className="p-6 transition-colors hover:bg-muted/30">
+    <div className="p-4 md:p-6 transition-colors hover:bg-muted/30">
       <div className="flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -35,7 +35,7 @@ export default function MatchCard({ match }: MatchCardProps) {
               <Badge className="bg-primary text-primary-foreground hover:bg-primary/90">Recommended</Badge>
             )}
           </div>
-          <h3 className="text-xl font-semibold leading-tight text-foreground">
+          <h3 className="text-lg md:text-xl font-semibold leading-tight text-foreground">
             {grant.title || "Untitled Grant"}
           </h3>
           <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
