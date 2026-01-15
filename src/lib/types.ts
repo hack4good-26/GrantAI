@@ -1,4 +1,4 @@
-// TypeScript interfaces for Grant Intent Advisor
+// TypeScript interfaces for GrantAI
 
 export interface Grant {
   id: string;  // UUID string

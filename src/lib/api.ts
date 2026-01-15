@@ -1,4 +1,4 @@
-// API client for Grant Intent Advisor
+// API client for GrantAI
 // Most data fetching is done directly via Supabase in server components
 // This file only contains the explainer API for the AI chatbot
 

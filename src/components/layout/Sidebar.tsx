@@ -48,7 +48,7 @@ export default function Sidebar({ className }: SidebarProps) {
       <div className={cn("flex items-center h-16 px-4 border-b border-sidebar-border", isCollapsed ? "justify-center" : "justify-between")}>
         {!isCollapsed && (
           <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            GrantAdvisor
+            GrantAI
           </span>
         )}
         <Button 

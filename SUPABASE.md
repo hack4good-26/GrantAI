@@ -1,6 +1,6 @@
 # Supabase Database Schema Documentation
 
-This document provides complete documentation of the database schema for the **Grant Intent Advisor** platform, including tables, functions, indexes, and data relationships.
+This document provides complete documentation of the database schema for the **GrantAI** platform, including tables, functions, indexes, and data relationships.
 
 ---
 

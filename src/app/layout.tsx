@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Grant Intent Advisor",
+  title: "GrantAI",
   description: "AI-powered grant discovery and matching platform",
 };
 
