@@ -4,10 +4,8 @@ import Link from "next/link";
 import { RecommendedGrant } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp, Sparkles, ArrowRight, Calendar, DollarSign } from "lucide-react";
+import { Sparkles, ArrowRight, Calendar, DollarSign, CheckCircle2, AlertTriangle } from "lucide-react";
 import MatchScore from "./MatchScore";
-import { useState } from "react";
 import { extractFundingAmount, extractDeadline } from "@/lib/utils";
 
 interface MatchCardProps {
@@ -15,8 +13,14 @@ interface MatchCardProps {
 }
 
 export default function MatchCard({ match }: MatchCardProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { grant, match_score, match_reasoning, decision_recommendation } = match;
+  const {
+    grant,
+    match_score,
+    match_reasoning,
+    decision_recommendation,
+    why_fits,
+    concerns,
+  } = match;
 
   if (!grant) return null;
 
@@ -73,24 +77,40 @@ export default function MatchCard({ match }: MatchCardProps) {
             </div>
           </div>
         </div>
-
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <CollapsibleTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-between text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isOpen ? "Hide AI Insights" : "Show AI Insights"}
-              {isOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-2 space-y-2 text-sm px-1">
-            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs text-primary leading-relaxed italic">
-              <strong>Tip:</strong> This grant aligns well with your KPIs. Consider highlighting your timeline in the application.
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
+        {(why_fits?.length || concerns?.length) ? (
+          <div className="grid gap-3 md:grid-cols-2">
+            {why_fits?.length ? (
+              <div className="rounded-lg border bg-background p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                  <h5 className="text-sm font-medium text-foreground">Why it fits</h5>
+                </div>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  {why_fits.map((reason, idx) => (
+                    <li key={idx} className="leading-relaxed">
+                      {reason}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {concerns?.length ? (
+              <div className="rounded-lg border bg-background p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  <h5 className="text-sm font-medium text-foreground">Concerns</h5>
+                </div>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  {concerns.map((concern, idx) => (
+                    <li key={idx} className="leading-relaxed">
+                      {concern}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-6 flex justify-end">

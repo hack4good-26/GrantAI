@@ -176,7 +176,7 @@ Analyze the match and respond with ONLY a valid JSON object (no markdown, no cod
   "concerns": ["<concern 1>", "<concern 2>"],
   "decision_recommendation": "<APPLY|WATCH|SKIP>",
   "win_probability": <0.0-1.0 float>,
-  "match_reasoning": "<2-3 sentence explanation of why this grant does or doesn't match>"
+  "match_reasoning": "<3-4 sentence explanation of why this grant does or doesn't match, citing at least two specific details from the service idea and grant>"
 }`;
 
       try {
