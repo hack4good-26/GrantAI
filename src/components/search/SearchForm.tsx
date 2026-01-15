@@ -63,7 +63,7 @@ export default function SearchForm() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-20 animate-in fade-in">
-        <LoadingSpinner text="Analyzing your service idea and finding suitable grants..." />
+        <LoadingSpinner text="Analyzing your project request and finding suitable grants..." />
       </div>
     );
   }
@@ -72,10 +72,10 @@ export default function SearchForm() {
     <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-4 md:space-y-6">
       <div className="text-center space-y-2 mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-          What service grants are you looking for?
+          What project are you looking to fund?
         </h1>
         <p className="text-muted-foreground text-sm md:text-base">
-          Describe your project idea and let AI find the perfect funding match.
+          Describe your project request and let AI find the perfect funding match.
         </p>
       </div>
       <QueryInput

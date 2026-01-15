@@ -210,10 +210,6 @@ Measures the similarity between two vectors by calculating the cosine of the ang
 
 Large Language Models analyze grant-service idea pairs to provide nuanced matching that considers eligibility, alignment, and application viability beyond simple text similarity.
 
-## Development Guide
-
-For comprehensive development guidance including architecture patterns, common workflows, and best practices, see [CLAUDE.md](./CLAUDE.md).
-
 ## Deployment
 
 ### Vercel (Recommended)

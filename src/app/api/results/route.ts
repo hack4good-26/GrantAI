@@ -85,9 +85,9 @@ export async function POST(request: NextRequest) {
       `${idx + 1}. ${g.title} (Similarity: ${(g.similarity * 100).toFixed(1)}%)\n   ${g.description || ''}`
     ).join('\n\n');
 
-    const filterPrompt = `You are a grant matching expert. Analyze these 10 grants and select the 4-6 BEST matches for this service idea:
+    const filterPrompt = `You are a grant matching expert. Analyze these 10 grants and select the 4-6 BEST matches for this user request:
 
-SERVICE IDEA:
+USER REQUEST:
 ${description}
 ${title ? `Title: ${title}` : ''}
 ${estimated_cost ? `Estimated Cost: $${estimated_cost.toLocaleString()}` : ''}
@@ -98,7 +98,7 @@ AVAILABLE GRANTS:
 ${grantsList}
 
 Select the 4-6 grants that are MOST RELEVANT and BEST MATCHES. Consider:
-- Alignment with the service idea's goals
+- Alignment with the user's request goals
 - Eligibility requirements
 - Funding scope and appropriateness
 - Realistic fit
@@ -152,9 +152,9 @@ Do not include any other text, explanations, or markdown formatting.`;
 
     // Step 4: LLM Reasoning Stage - Parallel reasoning for selected 4-6 grants
     const reasoningPromises = selectedGrants.map(async (grant: any) => {
-      const reasoningPrompt = `You are a grant matching expert. Analyze if this grant matches the user's service idea.
+      const reasoningPrompt = `You are a grant matching expert. Analyze if this grant matches the user's request.
 
-USER'S SERVICE IDEA:
+USER REQUEST:
 ${description}
 ${title ? `Title: ${title}` : ''}
 ${estimated_cost ? `Estimated Cost: $${estimated_cost.toLocaleString()}` : ''}
@@ -176,7 +176,7 @@ Analyze the match and respond with ONLY a valid JSON object (no markdown, no cod
   "concerns": ["<concern 1>", "<concern 2>"],
   "decision_recommendation": "<APPLY|WATCH|SKIP>",
   "win_probability": <0.0-1.0 float>,
-  "match_reasoning": "<3-4 sentence explanation of why this grant does or doesn't match, citing at least two specific details from the service idea and grant>"
+  "match_reasoning": "<3-4 sentence explanation of why this grant does or doesn't match, citing at least two specific details from the user request and grant>"
 }`;
 
       try {

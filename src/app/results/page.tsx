@@ -63,7 +63,7 @@ export default async function ResultsPage({
           <div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Grant Matches</h1>
             <p className="text-sm md:text-base text-muted-foreground">
-              We found {recommendedGrants.length} grants matching your service idea.
+              We found {recommendedGrants.length} grants matching your project request.
             </p>
           </div>
         </div>

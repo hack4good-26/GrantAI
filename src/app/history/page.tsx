@@ -21,7 +21,7 @@ export default async function HistoryPage() {
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Search History</h1>
           <p className="text-sm md:text-base text-muted-foreground">
-            View and revisit your past service ideas and grant matches.
+            View and revisit your past project requests and grant matches.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 sm:self-start">
@@ -40,7 +40,7 @@ export default async function HistoryPage() {
       ) : (
         <EmptyState 
           title="No search history yet" 
-          description="Start by describing a service idea to find matching grants."
+          description="Start by describing a project request to find matching grants."
           action={
             <Link href="/dashboard">
               <Button variant="outline" className="mt-4">

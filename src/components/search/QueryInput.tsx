@@ -24,12 +24,12 @@ export default function QueryInput({
   return (
     <div className="space-y-2">
       <Label htmlFor="query" className="sr-only">
-        Describe your service idea
+        Describe your project
       </Label>
       <div className="relative">
         <Textarea
           id="query"
-          placeholder="Describe your service idea..."
+          placeholder="Describe your project..."
           className="min-h-[160px] md:min-h-[200px] text-base md:text-lg p-3 pr-14 pb-14 md:p-4 md:pr-12 md:pb-12 resize-none shadow-sm focus-visible:ring-blue-500"
           value={value}
           onChange={(e) => onChange(e.target.value)}
