@@ -30,6 +30,7 @@ export default function ClearHistoryButton() {
     } catch (error: any) {
       console.error('Failed to clear history:', error);
       alert('Failed to clear history. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };

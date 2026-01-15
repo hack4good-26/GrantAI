@@ -7,6 +7,8 @@ import EmptyState from "@/components/shared/EmptyState";
 import ClearHistoryButton from "@/components/history/ClearHistoryButton";
 import type { QueryResult } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HistoryPage() {
   const supabase = getSupabase();
   const { data: results, error } = await supabase
