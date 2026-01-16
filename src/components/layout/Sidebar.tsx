@@ -1,19 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { 
-  LayoutDashboard, 
-  History, 
-  Library, 
-  Menu, 
-  ChevronLeft, 
-  ChevronRight,
-  Search
+import {
+  LayoutDashboard,
+  History,
+  Library,
+  Menu,
+  ChevronLeft,
 } from "lucide-react";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -43,30 +42,58 @@ export default function Sidebar({ className }: SidebarProps) {
     },
   ];
 
+  // Helper to handle expansion when clicking the sidebar
+  const handleSidebarClick = () => {
+    if (isCollapsed) {
+      setIsCollapsed(false);
+    }
+  };
+
   const SidebarContent = () => (
     <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border overflow-hidden">
       <div className={cn("flex items-center h-16 px-4 border-b border-sidebar-border", isCollapsed ? "justify-center" : "justify-between")}>
-        {!isCollapsed && (
-          <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            GrantAI
-          </span>
+        {!isCollapsed ? (
+          <>
+            <Image
+              src="/GrantAI__3_-removebg-preview.png"
+              alt="GrantAI Logo"
+              width={120}
+              height={40}
+              className="object-contain"
+              priority
+            />
+            {/* The Chevron only shows when NOT collapsed */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden md:flex text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevents the parent 'expand' logic from firing
+                setIsCollapsed(true);
+              }}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+          </>
+        ) : (
+          <Image
+            src="/grant-ai-logo-removebg-preview.png"
+            alt="GrantAI Logo"
+            width={40}
+            height={40}
+            className="object-contain"
+          />
         )}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="hidden md:flex text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-        </Button>
       </div>
       
       <div className="flex-1 py-4 overflow-hidden">
-        <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+        <nav className="grid gap-1 px-2">
           {routes.map((route) => (
             <Link
               key={route.href}
               href={route.href}
+              // e.stopPropagation ensures that clicking the link doesn't trigger the sidebar expansion logic
+              onClick={(e) => e.stopPropagation()} 
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-sidebar-accent-foreground hover:bg-sidebar-accent",
                 route.active ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground/70",
@@ -115,7 +142,13 @@ export default function Sidebar({ className }: SidebarProps) {
       </Sheet>
 
       {/* Desktop Sidebar */}
-      <div className={cn("hidden md:block h-screen sticky top-0 transition-all duration-300", isCollapsed ? "w-16" : "w-64")}>
+      <div 
+        onClick={handleSidebarClick}
+        className={cn(
+          "hidden md:block h-screen sticky top-0 transition-all duration-300 group cursor-pointer", 
+          isCollapsed ? "w-16" : "w-64 cursor-default"
+        )}
+      >
         <SidebarContent />
       </div>
     </>
