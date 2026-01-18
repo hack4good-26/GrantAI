@@ -129,7 +129,6 @@ hack4good-2026/
 │       ├── embeddings.ts         # Embedding generation
 │       ├── api.ts                # API client
 │       └── utils.ts              # Utility functions
-├── CLAUDE.md                     # Claude Code development guide
 ├── SUPABASE.md                   # Database schema documentation
 └── README.md                     # This file
 ```
@@ -253,9 +252,8 @@ This project was created for Hack4Good 2026.
 ## Support
 
 For questions or issues:
-1. Check [CLAUDE.md](./CLAUDE.md) for development guidance
-2. Check [SUPABASE.md](./SUPABASE.md) for database documentation
-3. Open an issue in the repository
+1. Check [SUPABASE.md](./SUPABASE.md) for database documentation
+2. Open an issue in the repository
 
 ---
 
