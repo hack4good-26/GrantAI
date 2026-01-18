@@ -1,3 +1,7 @@
+## Problem Statement: TSAO 1: Grants
+
+How might non-profit organisations "pull" information about grants from OurSG grants portal that are relevant to them according to key criteria including issue area, scope of grant, KPls, funding quantum, application due date, etcs. so that they can strengthen their financial sustainability?
+
 # GrantAI
 
 AI-powered grant discovery and matching platform that helps nonprofits find the perfect funding opportunities for their service ideas.
